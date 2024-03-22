@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useContext } from 'react';
 import { useSetStatus, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
-import { MapProps } from '.';
+import { MapProps } from './types';
 import { Context } from './context';
 
 export interface OverlayProps extends MapChildProps {}
@@ -34,7 +34,7 @@ export const useMap = (props: UseMap = {}) => {
   const { dispatch } = useContext(Context);
   useEffect(() => {
     if (container && !map && AMap) {
-      container.className = container.className + ' react-amap-wapper';
+      container.className = container.className + ' react-amap-wrapper';
       const instance = new AMap.Map(container, { zoom, ...other });
       setMap(instance);
     }
@@ -71,7 +71,7 @@ export const useMap = (props: UseMap = {}) => {
     }
   }, [map, props.center]);
 
-  useSetStatus<AMap.Map, UseMap>(map!, props, [
+  useSetStatus<AMap.Map, AMap.MapStates>(map!, props, [
     'dragEnable',
     'zoomEnable',
     'jogEnable',
@@ -97,7 +97,7 @@ export const useMap = (props: UseMap = {}) => {
     'DefaultLayer',
     'Pitch',
   ]);
-  useEventProperties<AMap.Map, UseMap>(map!, props, [
+  useEventProperties<AMap.Map, AMap.MapEvents>(map!, props, [
     'onMouseMove',
     'onZoomChange',
     'onMapMove',

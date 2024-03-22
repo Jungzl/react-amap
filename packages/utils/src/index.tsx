@@ -1,5 +1,5 @@
 /// <reference types="@uiw/react-amap-types" />
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export * from './usePortal';
 
@@ -81,13 +81,11 @@ export function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-export type EventNameType = 'LowerCase';
-
 /**
  * 绑定事件
  * @param instance 实例对象
  * @param props 传递进来的 props
- * @param eventName 事件的名字，如，我们使用 `onClick` 事件，最终被转换成，`click` 绑定到实例中，`onDblClick` => `dblclick`
+ * @param eventNames 事件的名字，如，我们使用 `onClick` 事件，最终被转换成，`click` 绑定到实例中，`onDblClick` => `dblclick`
  *
  * @example
  * ```js
@@ -96,15 +94,13 @@ export type EventNameType = 'LowerCase';
  * ]);
  * ```
  */
-export function useEventProperties<T extends AMap.MapEventListener<any>, F>(
+export function useEventProperties<T extends AMap.MapEventListener, F>(
   instance: T,
   props = {} as F,
-  eventName: string[] = [],
-  type?: EventNameType,
+  eventNames: string[] = [],
 ) {
-  eventName.forEach((name) => {
-    const eventName = name as keyof F;
-    const eventHandle = props[eventName];
+  eventNames.forEach((name) => {
+    const eventHandle = props[name as keyof F];
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       if (!instance) return;
@@ -125,7 +121,7 @@ export function useEventProperties<T extends AMap.MapEventListener<any>, F>(
  * 属性受控
  * @param instance 实例对象
  * @param props 属性值
- * @param propsName 多个属性设置的名称
+ * @param propsNames 多个属性设置的名称
  * @example
  * ```ts
  * useSettingProperties<AMap.Polyline, UsePolyline>(polyline!, props, [
@@ -133,8 +129,8 @@ export function useEventProperties<T extends AMap.MapEventListener<any>, F>(
  * ]);
  * ```
  */
-export function useSettingProperties<T, F = {}>(instance = {} as T, props = {} as F, propsName: string[] = []) {
-  propsName.forEach((name) => {
+export function useSettingProperties<T, F = {}>(instance = {} as T, props = {} as F, propsNames: string[] = []) {
+  propsNames.forEach((name) => {
     const eName = `set${name}` as keyof T;
     const vName = `${name.charAt(0).toLowerCase()}${name.slice(1)}` as keyof F;
     const eventHandle = props[vName];

@@ -6,7 +6,7 @@ export interface LabelMarkerProps extends OverlayProps, AMap.LabelMarkerEvents, 
   /**覆盖物是否可见 */
   visiable?: boolean;
   className?: string;
-  children?: JSX.Element;
+  children?: React.JSX.Element;
 }
 
 export const LabelMarker = forwardRef<LabelMarkerProps & { labelMarker?: AMap.LabelMarker }, LabelMarkerProps>(

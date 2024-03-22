@@ -1,4 +1,72 @@
 declare namespace AMap {
+  type HotspotEventType = 'hotspotclick' | 'hotspotover' | 'hotspotout';
+
+  type BaseMouseEventType =
+    | 'click'
+    | 'dblclick'
+    | 'rightclick'
+    | 'mousedown'
+    | 'mouseup'
+    | 'mouseover'
+    | 'mouseout'
+    | 'mousemove'
+    | 'mousewheel'
+    | 'dragstart'
+    | 'dragging'
+    | 'dragend';
+
+  type TouchEventType = 'touchstart' | 'touchmove' | 'touchend';
+
+  type ViewportEventType = 'zoomstart' | 'zoomend' | 'zoomchange' | 'mapmove' | 'movestart' | 'moveend';
+
+  type DomEventType = 'resize' | 'complete';
+
+  type MouseEventType = HotspotEventType | BaseMouseEventType;
+
+  type EventType = MouseEventType | TouchEventType | ViewportEventType | DomEventType;
+
+  interface MapEventAttrs<T extends EventType, U extends MouseEventType | TouchEventType = MouseEventType> {
+    /**
+     * 事件类型。
+     */
+    type: T;
+    /**
+     * 热点的名称。
+     */
+    name: string;
+    /**
+     * 热点的唯一标识。
+     */
+    id: string;
+    /**
+     * 发生事件时光标所在处的经纬度坐标。
+     */
+    lnglat: LngLat;
+    /**
+     * 发生事件时光标所在处的像素坐标。
+     */
+    pixel: Pixel;
+    pos: [number, number];
+    /**
+     * 发生事件的目标对象，不同类型返回target不同。例如，事件对象是Marker，则target表示目标对象为Marker，事件对象是其他，则随之改变。
+     */
+    target: Map;
+    /**
+     * 原始事件对象。
+     */
+    originEvent: U;
+  }
+
+  type HotspotEventObj<T extends EventType> = Omit<MapEventAttrs<T>, 'pixel' | 'target' | 'pos'>;
+
+  type BaseMouseEventObj<T extends EventType> = Omit<MapEventAttrs<T>, 'id' | 'name'>;
+
+  type TouchEventObj<T extends EventType> = Omit<MapEventAttrs<T, TouchEventType>, 'id' | 'name'>;
+
+  type ViewportEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'target'>;
+
+  type DomEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type'>;
+
   abstract class EventEmitter {
     /**
      * 注册事件
@@ -9,11 +77,11 @@ declare namespace AMap {
      * @param unshift 更改事件顺序
      */
     on<C = this>(
-        eventName: string,
-        handler: (this: C, event: any) => void,
-        context?: C,
-        once?: boolean,
-        unshift?: boolean
+      eventName: string,
+      handler: (this: C, event: any) => void,
+      context?: C,
+      once?: boolean,
+      unshift?: boolean,
     ): this;
     /**
      * 移除事件绑定
@@ -21,11 +89,7 @@ declare namespace AMap {
      * @param handler 事件功能函数
      * @param context 事件上下文
      */
-    off<C = this>(
-        eventName: string,
-        handler: ((this: C, event: any) => void) | 'mv',
-        context?: C
-    ): this;
+    off<C = this>(eventName: string, handler: ((this: C, event: any) => void) | 'mv', context?: C): this;
     /**
      * 触发事件
      * @param eventName 事件名称
@@ -35,7 +99,7 @@ declare namespace AMap {
   }
   namespace event {
     interface EventListener<T extends 0 | 1> {
-        type: T;
+      type: T;
     }
     /**
      * 注册DOM对象事件
@@ -44,12 +108,16 @@ declare namespace AMap {
      * @param handler 事件功能函数
      * @param context 事件上下文
      */
-    function addDomListener<N extends keyof HTMLElementTagNameMap, E extends keyof HTMLElementEventMap, C = HTMLElementTagNameMap[N]>(
-        // tslint:disable-next-line: no-unnecessary-generics
-        instance: HTMLElementTagNameMap[N],
-        eventName: E,
-        handler: (this: C, event: HTMLElementEventMap[E]) => void,
-        context?: C
+    function addDomListener<
+      N extends keyof HTMLElementTagNameMap,
+      E extends keyof HTMLElementEventMap,
+      C = HTMLElementTagNameMap[N],
+    >(
+      // tslint:disable-next-line: no-unnecessary-generics
+      instance: HTMLElementTagNameMap[N],
+      eventName: E,
+      handler: (this: C, event: HTMLElementEventMap[E]) => void,
+      context?: C,
     ): EventListener<0>;
     /**
      * 给对象注册事件
@@ -59,11 +127,11 @@ declare namespace AMap {
      * @param context 事件上下文
      */
     function addListener<I extends EventEmitter, C = I>(
-        // tslint:disable-next-line: no-unnecessary-generics
-        instance: I,
-        eventName: string,
-        handler: (this: C, event: any) => void,
-        context?: C
+      // tslint:disable-next-line: no-unnecessary-generics
+      instance: I,
+      eventName: string,
+      handler: (this: C, event: any) => void,
+      context?: C,
     ): EventListener<1>;
     /**
      * 给对象注册一次性事件
@@ -73,11 +141,11 @@ declare namespace AMap {
      * @param context 事件上下文
      */
     function addListenerOnce<I extends EventEmitter, C = I>(
-        // tslint:disable-next-line: no-unnecessary-generics
-        instance: I,
-        eventName: string,
-        handler: (this: C, event: any) => void,
-        context?: C
+      // tslint:disable-next-line: no-unnecessary-generics
+      instance: I,
+      eventName: string,
+      handler: (this: C, event: any) => void,
+      context?: C,
     ): EventListener<1>;
     /**
      * 删除事件

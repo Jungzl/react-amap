@@ -7,11 +7,11 @@ declare global {
 
 declare namespace AMap {
   /** 1.x.xx 版本 API，版本号用的是这个字段 */
-  const v:string; 
+  const v: string;
 
   /** 2.x.xx 版本 API，版本号用的是这个字段 */
-  const version: string; 
-  
+  const version: string;
+
   /**
    * 经纬度坐标，用来描述地图上的一个点位置, 目前高德地图使用的是 GCJ-02 坐标，如果你采集的是 WGS84 坐标，请先进行坐标转换
    */
@@ -23,9 +23,9 @@ declare namespace AMap {
      */
     constructor(lng: number, lat: number, noWrap?: boolean);
     /** 地理经度 */
-    lng?: number
+    lng?: number;
     /** 地理纬度 */
-    lat?: number
+    lat?: number;
     /**
      * 设置经度值
      * @param lng 经度值
@@ -106,7 +106,7 @@ declare namespace AMap {
     getNorthEast?(): LngLat;
     /**
      * 指定点坐标是否在矩形范围内 [相关示例](https://lbs.amap.com/api/javascript-api/example/relationship-judgment/point-surface-relation)
-     * @param obj 
+     * @param obj
      */
     contains?(obj: LngLat): boolean;
     /**
@@ -141,7 +141,7 @@ declare namespace AMap {
     toString?(): string;
     /**
      * 当前像素坐标与传入像素坐标是否相等
-     * @param point 
+     * @param point
      */
     equals?(point: Pixel): boolean;
   }
@@ -167,7 +167,7 @@ declare namespace AMap {
      */
     toString?(): string;
   }
-  class MapEventListener<T = ''> {
+  class MapEventListener<T extends EventType = EventType> {
     /**
      * 设置控件可见
      */
@@ -178,14 +178,14 @@ declare namespace AMap {
     hide: () => void;
     /**
      * 添加事件监听函数
-     * @param event 
-     * @param handler 
+     * @param event
+     * @param handler
      */
     on(event: T, handler: any): void;
     /**
      * 移除事件监听函数
-     * @param event 
-     * @param handler 
+     * @param event
+     * @param handler
      */
     off(event: T, handler: any): void;
     /**
@@ -203,29 +203,22 @@ declare namespace AMap {
     /** 模拟触发当前实例的某个事件 */
     emit(type: string, data: any): any;
   }
-  // interface MapEventListener<T> {
-  // }
-  type MapsEvent = {
-    /**
-     * 发生事件时光标所在处的经纬度坐标。
-     */
-    lnglat: LngLat;
-    /**
-     * 发生事件时光标所在处的像素坐标。
-     */
-    pixel: Pixel;
-    /**
-     * 事件类型。
-     */
-    type: string;
-    /**
-     * 发生事件的目标对象，不同类型返回target不同。例如，事件对象是Marker，则target表示目标对象为Marker，事件对象是其他，则随之改变。
-     */
-    target: Map;
-  }
+
+  type MapsEvent<T extends EventType = EventType> = T extends BaseMouseEventType
+    ? BaseMouseEventObj<T>
+    : T extends TouchEventType
+      ? TouchEventObj<T>
+      : T extends HotspotEventType
+        ? HotspotEventObj<T>
+        : T extends ViewportEventType
+          ? ViewportEventObj<T>
+          : T extends DomEventType
+            ? DomEventObj<T>
+            : never;
+
   /**
-   * 表示点标记的图标  
-   * 用于添加复杂点标记，即在普通点标记的基础上，添加Icon类，通过在Icon表示的大图上截取其中一部分作为标注的图标 [相关示例](https://lbs.amap.com/api/javascript-api/example/marker/custom-icon/)  
+   * 表示点标记的图标
+   * 用于添加复杂点标记，即在普通点标记的基础上，添加Icon类，通过在Icon表示的大图上截取其中一部分作为标注的图标 [相关示例](https://lbs.amap.com/api/javascript-api/example/marker/custom-icon/)
    * 构造点覆盖物图标，通过 IconOptions 设置图标属性
    * https://lbs.amap.com/api/javascript-api/reference/overlay#icon
    */
@@ -237,9 +230,9 @@ declare namespace AMap {
     getImageSize?(): Size;
     /**
      * 设置图标图片大小
-     * @param size 
+     * @param size
      */
-    setImageSize?(size:Size): void;
+    setImageSize?(size: Size): void;
   }
   /**
    * Icon 类设置
@@ -274,24 +267,24 @@ declare namespace AMap {
   /** 共同部分事件定义 */
   interface EventsCommonProps {
     /** 鼠标左键单击事件 */
-    onClick?(event: MapsEvent): void;
+    onClick?(event: MapsEvent<'click'>): void;
     /** 鼠标左键双击事件 */
-    onDblClick?(event:  MapsEvent): void;
+    onDblClick?(event: MapsEvent<'dblclick'>): void;
     /** 右键单击 */
-    onRightClick?(event:  MapsEvent): void;
+    onRightClick?(event: MapsEvent<'rightclick'>): void;
     /** 鼠标按下 */
-    onMouseDown?(event: MapsEvent): void;
+    onMouseDown?(event: MapsEvent<'mousedown'>): void;
     /** 鼠标抬起 */
-    onMouseUp?(event: MapsEvent): void;
+    onMouseUp?(event: MapsEvent<'mouseup'>): void;
     /** 鼠标经过 */
-    onMouseOver?(event: MapsEvent): void;
+    onMouseOver?(event: MapsEvent<'mouseover'>): void;
     /** 鼠标移出 */
-    onMouseOut?(event: MapsEvent): void;
+    onMouseOut?(event: MapsEvent<'mouseout'>): void;
     /** 触摸开始时触发事件，仅适用移动设备 */
-    onTouchStart?(event: MapsEvent): void;
+    onTouchStart?(event: MapsEvent<'touchstart'>): void;
     /** 触摸移动进行中时触发事件，仅适用移动设备 */
-    onTouchMove?(event: MapsEvent): void;
+    onTouchMove?(event: MapsEvent<'touchmove'>): void;
     /** 触摸结束时触发事件，仅适用移动设备 */
-    onTouchEnd?(event: MapsEvent): void;
+    onTouchEnd?(event: MapsEvent<'touchend'>): void;
   }
 }

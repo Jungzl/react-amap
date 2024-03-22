@@ -30,7 +30,18 @@ declare namespace AMap {
       draggable?: boolean | undefined;
     }
   }
-  abstract class Overlay<ExtraData = any> extends MapEventListener<'touchstart' | 'touchmove' | 'touchend' | 'click' | 'rightclick' | 'dblclick' | 'mousemove' | 'mouseover' | 'mousedown' | 'mouseup'> {
+  abstract class Overlay<ExtraData = any> extends MapEventListener<
+    | 'touchstart'
+    | 'touchmove'
+    | 'touchend'
+    | 'click'
+    | 'rightclick'
+    | 'dblclick'
+    | 'mousemove'
+    | 'mouseover'
+    | 'mousedown'
+    | 'mouseup'
+  > {
     constructor(options?: Overlay.Options);
     /**
      * 获取所属地图
@@ -69,7 +80,25 @@ declare namespace AMap {
   /**
    * [点标记](https://a.amap.com/jsapi/static/doc/index.html?v=2#marker)
    */
-  class Marker extends MapEventListener<'dragstart' | 'touchmove' | 'click' | 'dblclick' | 'rightclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mousedown' | 'mouseup' | 'dragging' | 'dragend' | 'moving' | 'moveend' | 'touchend' | 'movealong' | 'touchstart'> {
+  class Marker extends MapEventListener<
+    | 'dragstart'
+    | 'touchmove'
+    | 'click'
+    | 'dblclick'
+    | 'rightclick'
+    | 'mousemove'
+    | 'mouseover'
+    | 'mouseout'
+    | 'mousedown'
+    | 'mouseup'
+    | 'dragging'
+    | 'dragend'
+    | 'moving'
+    | 'moveend'
+    | 'touchend'
+    | 'movealong'
+    | 'touchstart'
+  > {
     constructor(opts: MarkerOptions);
     /** 获取点标记的文字提示 */
     getTitle(): string | undefined;
@@ -169,7 +198,16 @@ declare namespace AMap {
      * 设置点标记锚点。
      * @default 'top-left' 默认值
      */
-    anchor?: 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+    anchor?:
+      | 'top-left'
+      | 'top-center'
+      | 'top-right'
+      | 'middle-left'
+      | 'center'
+      | 'middle-right'
+      | 'bottom-left'
+      | 'bottom-center'
+      | 'bottom-right';
     /**
      * 点标记显示位置偏移量，默认值为Pixel(-10,-34)。
      * Marker指定position后，默认以marker左上角位置为基准点（若设置了anchor，则以anchor设置位置为基准点），对准所给定的position位置，若需使marker指定位置对准在position处，需根据marker的尺寸设置一定的偏移量。
@@ -258,7 +296,7 @@ declare namespace AMap {
      * direction 为文本标注方位（自 v1.4.14 新增属性），可选值：'top'|'right'|'bottom'|'left'|'center'，默认值：'top' 。
      * offset 为偏移量（默认基准点为图标左上角），如设置了 direction，以 direction 方位为基准点进行偏移。相关示例
      */
-    label?: { content: string; offset: Pixel, direction: 'top' | 'right' | 'bottom' | 'left' | 'center' };
+    label?: { content: string; offset: Pixel; direction: 'top' | 'right' | 'bottom' | 'left' | 'center' };
   }
   interface MarkerEvents extends EventsCommonProps {
     /**
@@ -292,7 +330,7 @@ declare namespace AMap {
     onMoveAlong?(): void;
   }
   class MarkerShape {
-    constructor(opts: MarkerShapeOptions)
+    constructor(opts: MarkerShapeOptions);
   }
   interface MarkerShapeOptions {
     /**
@@ -314,7 +352,20 @@ declare namespace AMap {
   /**
    * 构造折线对象，支持 lineString 和 MultiLineString
    */
-  class Polyline extends MapEventListener<'hide' | 'show' | 'mouseout' | 'rightclick' | 'dblclick' | 'click' | 'mouseover' | 'touchend' | 'touchmove' | 'touchstart' | 'mouseup' | 'mousedown'> {
+  class Polyline extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'mouseout'
+    | 'rightclick'
+    | 'dblclick'
+    | 'click'
+    | 'mouseover'
+    | 'touchend'
+    | 'touchmove'
+    | 'touchstart'
+    | 'mouseup'
+    | 'mousedown'
+  > {
     constructor(opts: PolylineOptions);
     /**
      * 获取当前折线的矩形范围对象
@@ -335,7 +386,7 @@ declare namespace AMap {
     getExtData(): any;
     /**
      * 设置用户自定义属性，支持JavaScript API任意数据类型
-     * @param extData 
+     * @param extData
      */
     setExtData(extData: any): void;
     /**
@@ -348,20 +399,19 @@ declare namespace AMap {
     getPath(): Array<LngLat> | Array<Array<LngLat>>;
     /**
      * 修改折线属性（包括路径的节点、线样式、是否绘制大地线等。属性详情参看PolylineOptions列表)
-     * @param opts 
+     * @param opts
      */
     setOptions(opts: PolylineOptions): void;
     /**
      * 判断坐标是否在折线内
-     * @param point 
+     * @param point
      */
     contains(point: LngLatLike): boolean;
-
   }
-  interface PolylineEvents extends EventsCommonProps { 
-    onDragStart?(event:MapsEvent):void;
-    onDragEnd?(event:MapsEvent):void;
-    onDragging?(event:MapsEvent):void;
+  interface PolylineEvents extends EventsCommonProps {
+    onDragStart?(event: MapsEvent): void;
+    onDragEnd?(event: MapsEvent): void;
+    onDragging?(event: MapsEvent): void;
   }
 
   interface PolylineOptions {
@@ -427,9 +477,9 @@ declare namespace AMap {
      */
     strokeStyle?: 'solid' | 'dashed';
     /**
-     * 勾勒形状轮廓的虚线和间隙的样式，此属性在 strokeStyle 为 dashed 时有效， 此属性在 `ie9+` 浏览器有效  
-     * > **取值**  
-     * - 实线： [0,0,0]  
+     * 勾勒形状轮廓的虚线和间隙的样式，此属性在 strokeStyle 为 dashed 时有效， 此属性在 `ie9+` 浏览器有效
+     * > **取值**
+     * - 实线： [0,0,0]
      * - 虚线： [10,10],[10,10] 表示10个像素的实线和10个像素的空白（如此反复）组成的虚线
      * - 点画线： [10,2,10],[10,2,10] 表示10个像素的实线和2个像素的空白 + 10个像素的实线和10个像素的空白 （如此反复）组成的虚线
      */
@@ -458,7 +508,20 @@ declare namespace AMap {
   /**
    * 构造圆形对象，通过CircleOptions指定多边形样式
    */
-  class Circle extends MapEventListener<'hide' | 'show' | 'rightclick' | 'click' | 'touchend' | 'dblclick' | 'touchmove' | 'touchstart' | 'mouseout' | 'mouseover' | 'mouseup' | 'mousedown'> {
+  class Circle extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'rightclick'
+    | 'click'
+    | 'touchend'
+    | 'dblclick'
+    | 'touchmove'
+    | 'touchstart'
+    | 'mouseout'
+    | 'mouseover'
+    | 'mouseup'
+    | 'mousedown'
+  > {
     constructor(opts: CircleOptions);
     /** 设置圆中心点 */
     setCenter(center: LngLatLike): void;
@@ -479,7 +542,7 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleOptions;
   }
-  interface CircleEvents extends EventsCommonProps { }
+  interface CircleEvents extends EventsCommonProps {}
   interface CircleOptions {
     /** 圆心位置 */
     center?: LngLat;
@@ -535,7 +598,20 @@ declare namespace AMap {
     options?: Omit<CircleOptions, 'options'>;
   }
 
-  class CircleMarker extends MapEventListener<'hide' | 'show' | 'mouseover' | 'touchend' | 'click' | 'touchmove' | 'rightclick' | 'mouseup' | 'mouseout' | 'touchstart' | 'mousedown' | 'dblclick'> {
+  class CircleMarker extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'mouseover'
+    | 'touchend'
+    | 'click'
+    | 'touchmove'
+    | 'rightclick'
+    | 'mouseup'
+    | 'mouseout'
+    | 'touchstart'
+    | 'mousedown'
+    | 'dblclick'
+  > {
     constructor(opts: CircleMarkerOptions);
     /** 设置圆点的半径 */
     setRaius(radius: number): void;
@@ -556,7 +632,7 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleMarkerOptions;
   }
-  interface CircleMarkerEvents extends EventsCommonProps { }
+  interface CircleMarkerEvents extends EventsCommonProps {}
   interface CircleMarkerOptions {
     /** 圆心位置 */
     center?: LngLat;
@@ -588,7 +664,20 @@ declare namespace AMap {
   /**
    * 构造多边形对象
    */
-  class Ellipse extends MapEventListener<'hide' | 'show' | 'click' | 'dblclick' | 'rightclick' | 'mouseover' | 'touchend' | 'touchmove' | 'touchstart' | 'mouseout' | 'mouseup' | 'mousedown'> {
+  class Ellipse extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'click'
+    | 'dblclick'
+    | 'rightclick'
+    | 'mouseover'
+    | 'touchend'
+    | 'touchmove'
+    | 'touchstart'
+    | 'mouseout'
+    | 'mouseup'
+    | 'mousedown'
+  > {
     constructor(opts: EllipseOptions);
     /** 设置椭圆的中心点 */
     setCenter(center: LngLatLike): void;
@@ -671,14 +760,27 @@ declare namespace AMap {
   }
   interface EllipseEvents extends EventsCommonProps {
     /** 隐藏 */
-    onHide?(data: { type: string, target: AMap.Map }): void;
+    onHide?(data: { type: string; target: AMap.Map }): void;
     /** 显示 */
-    onShow?(data: { type: string, target: AMap.Map }): void;
+    onShow?(data: { type: string; target: AMap.Map }): void;
   }
   /**
    * 构造矩形对象
    */
-  class Rectangle extends MapEventListener<'hide' | 'show' | 'dblclick' | 'click' | 'mousedown' | 'mouseout' | 'mouseover' | 'mouseup' | 'touchend' | 'rightclick' | 'touchstart' | 'touchmove'> {
+  class Rectangle extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'dblclick'
+    | 'click'
+    | 'mousedown'
+    | 'mouseout'
+    | 'mouseover'
+    | 'mouseup'
+    | 'touchend'
+    | 'rightclick'
+    | 'touchstart'
+    | 'touchmove'
+  > {
     constructor(opts: RectangleOptions);
     /** 设置矩形的范围 */
     setBounds(bounds: Bounds): void;
@@ -730,7 +832,6 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   interface RectangleEvents extends EventsCommonProps {
-
     /** 隐藏 */
     onHide?(event: { type: string; target: AMap.Map }): void;
     /** 显示 */
@@ -741,7 +842,20 @@ declare namespace AMap {
   /**
    * 贝塞尔曲线
    */
-  class BezierCurve extends MapEventListener<'hide' | 'show' | 'dblclick' | 'mouseover' | 'mouseup' | 'mousedown' | 'click' | 'touchend' | 'touchmove' | 'touchstart' | 'rightclick' | 'mouseout'> {
+  class BezierCurve extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'dblclick'
+    | 'mouseover'
+    | 'mouseup'
+    | 'mousedown'
+    | 'click'
+    | 'touchend'
+    | 'touchmove'
+    | 'touchstart'
+    | 'rightclick'
+    | 'mouseout'
+  > {
     constructor(opts: BezierCurveOptions);
     /** 修改折线属性（包括路径的节点、线样式、是否绘制大地线等。属性详情参看 BezierCurveOptions 列表） */
     setOptions(optsArg: BezierCurveOptions): void;
@@ -750,7 +864,7 @@ declare namespace AMap {
     /**
      * 设置组成该折线的节点数组
      * path ((Array<Array<number>> | Array<Array<Array<number>>>)) 贝瑟尔曲线的路径。
-     * 描述为一个二维数组规则如下：第一个元素是起点， 之后的元素同时描述控制点和途经点，之后每个元素可以有0个到2个控制点 控制点在前，途经点在最后 
+     * 描述为一个二维数组规则如下：第一个元素是起点， 之后的元素同时描述控制点和途经点，之后每个元素可以有0个到2个控制点 控制点在前，途经点在最后
      * [ [lng,lat] ,
      * //起点0 [lng,lat,lng,lat,lng,lat] ,
      * //控制点、控制点、途经点2 [lng,lat,lng,lat] //控制点、途经点3 ] 或者 [ [ [lng,lat] ],//起点0 [ [lng,lat] , [lng,lat] ],
@@ -785,9 +899,9 @@ declare namespace AMap {
      *   // 控制点、途经点3
      * ]
      * ```
-     * 
+     *
      * 或者
-     * 
+     *
      * ```js
      * [
      *  [[lng, lat]],
@@ -827,16 +941,29 @@ declare namespace AMap {
     /** 用户自定义属性，支持JavaScript API任意数据类型，如Polygon的id等 */
     extData?: any;
     /** (default solid) 轮廓线样式，实线:solid，虚线:dashed */
-    strokeStyle?: "solid" | "dashed";
+    strokeStyle?: 'solid' | 'dashed';
   }
   interface BezierCurveEvents extends EventsCommonProps {
     /** 隐藏 */
-    onHide?(data: { type: string, target: any }): void;
+    onHide?(data: { type: string; target: any }): void;
     /** 显示 */
-    onShow?(data: { type: string, target: any }): void;
+    onShow?(data: { type: string; target: any }): void;
   }
   /** 多边形 */
-  class Polygon extends MapEventListener<'hide' | 'show' | 'touchstart' | 'mouseout' | 'mouseover' | 'mouseup' | 'mousedown' | 'rightclick' | 'click' | 'dblclick' | 'touchend' | 'touchmove'> {
+  class Polygon extends MapEventListener<
+    | 'hide'
+    | 'show'
+    | 'touchstart'
+    | 'mouseout'
+    | 'mouseover'
+    | 'mouseup'
+    | 'mousedown'
+    | 'rightclick'
+    | 'click'
+    | 'dblclick'
+    | 'touchend'
+    | 'touchmove'
+  > {
     constructor(opts: PolygonOptions);
     /** 设置多边形轮廓线节点数组，当为“环”多边形时，path为二维数组，数组元素为多边形轮廓线的节点坐标数组 */
     setPath(path: Array<LngLat> | Array<Array<LngLat>>): void;
@@ -895,9 +1022,9 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   interface PolygonEvents extends EventsCommonProps {
-    onDragStart?(event:MapsEvent):void;
-    onDragEnd?(event:MapsEvent):void;
-    onDragging?(event:MapsEvent):void;
+    onDragStart?(event: MapsEvent): void;
+    onDragEnd?(event: MapsEvent): void;
+    onDragging?(event: MapsEvent): void;
     /** 属性发生变化时 */
     onChange?(): void;
   }
@@ -930,18 +1057,18 @@ declare namespace AMap {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
     onEnd(data: { target: Polygon }): void;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polygon, lnglat: LngLat, pixel: Pixel }): void;
+    onAddnode(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
     /** 移除一个节点时触发此事件 */
-    onRemovenode(data: { target: Polygon, lnglat: LngLat, pixel: Pixel }): void;
+    onRemovenode(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polygon, lnglat: LngLat, pixel: Pixel }): void;
+    onAdjust(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
     /** 移动覆盖物时触发此事件 */
-    onMove(data: { target: Polygon, lnglat: LngLat, pixel: Pixel }): void;
+    onMove(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
     /** 创建一个覆盖物之后触发该事件，target即为创建对象。当editor编辑对象为空时，调用open接口，再点击一次屏幕就会创建新的覆盖物对象 */
     onAdd(data: { target: Polygon }): void;
   }
 
- /**
+  /**
    * Polyline 编辑器
    */
   class PolylineEditor extends MapEventListener<'end' | 'remove' | 'addnode' | 'adjust' | 'add'> {
@@ -962,19 +1089,19 @@ declare namespace AMap {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
     onEnd(data: { target: Polyline }): void;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onAddnode(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onAdjust(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
     /** 移除一个节点时时触发此事件 */
-    onRemovenode(data: { target: Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onRemovenode(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
     /** 创建一个覆盖物之后触发该事件，target即为创建对象。当editor编辑对象为空时，调用open接口，再点击一次屏幕就会创建新的覆盖物对象 */
     onAdd(data: { target: Polyline }): void;
   }
-  
+
   /**
    * Poly 编辑器
    */
-   class PolyEditor extends MapEventListener<'end' | "removenode" | 'addnode' | 'adjust'> {
+  class PolyEditor extends MapEventListener<'end' | 'removenode' | 'addnode' | 'adjust'> {
     constructor(map: AMap.Map, poly: Polygon | Polyline);
     editable: boolean;
     /** 要显示该polygon的地图对象 */
@@ -986,58 +1113,57 @@ declare namespace AMap {
   }
   interface PolyEditorEvents {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
-    onEnd(data: {type:string, target: Polygon|Polyline }): void;
+    onEnd(data: { type: string; target: Polygon | Polyline }): void;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polygon|Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onAddnode(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polygon|Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onAdjust(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
     /** 移动覆盖物时触发此事件 */
-    onRemovenode(data: { target: Polygon|Polyline, lnglat: LngLat, pixel: Pixel }): void;
+    onRemovenode(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
   }
-    
+
   /**
    * MouseTool 绘制工具
    */
-     class MouseTool extends MapEventListener<'draw'> {
-      constructor(map: AMap.Map);
-      /** 要显示的地图对象 */
-      map?: Map;
-      
-      /** 开启鼠标画点标注模式。鼠标在地图上单击绘制点标注，标注样式参考MarkerOptions设置 */
-      marker(opts:MarkerOptions):void;
-      
-      /** 开启鼠标画圆模式。鼠标在地图上拖动绘制相应的圆形。圆形样式参考CircleOptions设置 */
-      circle(opts:CircleOptions):void;
+  class MouseTool extends MapEventListener<'draw'> {
+    constructor(map: AMap.Map);
+    /** 要显示的地图对象 */
+    map?: Map;
 
-      /** 开启鼠标画矩形模式。鼠标在地图上拉框即可绘制相应的矩形。矩形样式参考PolygonOptions设置 */
-      rectangle(opts:RectangleOptions):void;
+    /** 开启鼠标画点标注模式。鼠标在地图上单击绘制点标注，标注样式参考MarkerOptions设置 */
+    marker(opts: MarkerOptions): void;
 
-      /** 开启鼠标画折线模式。鼠标在地图上点击绘制折线，鼠标左键双击或右键单击结束绘制，折线样式参考PolylineOptions设置 */
-      polyline(opts:PolylineOptions):void;
+    /** 开启鼠标画圆模式。鼠标在地图上拖动绘制相应的圆形。圆形样式参考CircleOptions设置 */
+    circle(opts: CircleOptions): void;
 
-      /** 开启鼠标画多边形模式。鼠标在地图上单击开始绘制多边形，鼠标左键双击或右键单击结束当前多边形的绘制，多边形样式参考PolygonOptions设置 */
-      polygon(opts:PolygonOptions):void;
+    /** 开启鼠标画矩形模式。鼠标在地图上拉框即可绘制相应的矩形。矩形样式参考PolygonOptions设置 */
+    rectangle(opts: RectangleOptions): void;
 
-      /** 开启面积量测模式。鼠标在地图上单击绘制量测区域，鼠标左键双击或右键单击结束当前量测操作，并显示本次量测结果。量测面样式参考PolygonOptions设置 */
-      measureArea(opts:PolygonOptions):void;
-      
-      /** 开启距离量测模式。鼠标在地图上单击绘制量测节点，并计算显示两两节点之间的距离，鼠标左键双击或右键单击结束当前量测操作。量测线样式参考 PolylineOptions 设置 注：不能同时使用rule方法和RangTool插件进行距离量测 */
-      rule(opts:PolylineOptions):void;
-      
-      /** 开启鼠标拉框放大模式。鼠标可在地图上拉框放大地图。矩形框样式参考PolygonOptions设置 */
-      rectZoomIn(opts:PolygonOptions):void;
+    /** 开启鼠标画折线模式。鼠标在地图上点击绘制折线，鼠标左键双击或右键单击结束绘制，折线样式参考PolylineOptions设置 */
+    polyline(opts: PolylineOptions): void;
 
-      /** 开启鼠标拉框缩小模式。鼠标可在地图上拉框缩小地图。矩形框样式参考PolygonOptions设置 */
-     rectZoomOut(opts:PolygonOptions):void;
+    /** 开启鼠标画多边形模式。鼠标在地图上单击开始绘制多边形，鼠标左键双击或右键单击结束当前多边形的绘制，多边形样式参考PolygonOptions设置 */
+    polygon(opts: PolygonOptions): void;
 
-      /** 关闭当前鼠标操作。参数arg设为true时，鼠标操作关闭的同时清除地图上绘制的所有覆盖物对象；设为false时，保留所绘制的覆盖物对象。默认为false */
-      close(ifClear:Boolean=false):void;
-      
-    }
-    interface MouseToolEvents {
-      /** 鼠标工具绘制覆盖物结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
-      onDraw(event: {type:string, obj: Marker|Circle|Polygon|Polyline }): void;
-    }
+    /** 开启面积量测模式。鼠标在地图上单击绘制量测区域，鼠标左键双击或右键单击结束当前量测操作，并显示本次量测结果。量测面样式参考PolygonOptions设置 */
+    measureArea(opts: PolygonOptions): void;
+
+    /** 开启距离量测模式。鼠标在地图上单击绘制量测节点，并计算显示两两节点之间的距离，鼠标左键双击或右键单击结束当前量测操作。量测线样式参考 PolylineOptions 设置 注：不能同时使用rule方法和RangTool插件进行距离量测 */
+    rule(opts: PolylineOptions): void;
+
+    /** 开启鼠标拉框放大模式。鼠标可在地图上拉框放大地图。矩形框样式参考PolygonOptions设置 */
+    rectZoomIn(opts: PolygonOptions): void;
+
+    /** 开启鼠标拉框缩小模式。鼠标可在地图上拉框缩小地图。矩形框样式参考PolygonOptions设置 */
+    rectZoomOut(opts: PolygonOptions): void;
+
+    /** 关闭当前鼠标操作。参数arg设为true时，鼠标操作关闭的同时清除地图上绘制的所有覆盖物对象；设为false时，保留所绘制的覆盖物对象。默认为false */
+    close(ifClear: Boolean = false): void;
+  }
+  interface MouseToolEvents {
+    /** 鼠标工具绘制覆盖物结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
+    onDraw(event: { type: string; obj: Marker | Circle | Polygon | Polyline }): void;
+  }
 
   /**
    * 用于在地图上弹出一个详细信息展示窗体，地图上只允许同时展示 `1` 个信息窗体
@@ -1055,7 +1181,18 @@ declare namespace AMap {
     /** 获取信息窗体大小 */
     setContent(content: HTMLElement | string): void;
     /** 设置信息窗体锚点 默认值：'bottom-center'。 */
-    setAnchor(anchor: 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'): void;
+    setAnchor(
+      anchor:
+        | 'top-left'
+        | 'top-center'
+        | 'top-right'
+        | 'middle-left'
+        | 'center'
+        | 'middle-right'
+        | 'bottom-left'
+        | 'bottom-center'
+        | 'bottom-right',
+    ): void;
   }
   interface InforWindowOptions {
     /** 是否自定义窗体。设为true时，信息窗体外框及内容完全按照content所设的值添加（默认为false，即在系统默认的信息窗体外框中显示content内容） */
@@ -1069,12 +1206,21 @@ declare namespace AMap {
     /** 显示内容，可以是HTML要素字符串或者HTMLElement对象，自定义窗体示例 */
     content?: string | HTMLElement;
     /** 信息窗体尺寸（isCustom为true时，该属性无效） */
-    size?: Size
+    size?: Size;
     /**
      * 信息窗体锚点
      * @default 'bottom-center' 默认值
      */
-    anchor?: 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+    anchor?:
+      | 'top-left'
+      | 'top-center'
+      | 'top-right'
+      | 'middle-left'
+      | 'center'
+      | 'middle-right'
+      | 'bottom-left'
+      | 'bottom-center'
+      | 'bottom-right';
     /** 信息窗体显示位置偏移量。默认基准点为信息窗体的底部中心（若设置了anchor，则以anchor值为基准点）。 */
     offset?: Pixel;
     /** 信息窗体显示基点位置 （自v1.2 新增） */
@@ -1088,7 +1234,25 @@ declare namespace AMap {
     onChange?(): void;
   }
   /** 文本标记 */
-  class Text extends MapEventListener<'moving' | 'touchmove' | 'touchend' | 'movealong' | 'touchstart' | 'moveend' | 'click' | 'dblclick' | 'rightclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mousedown' | 'mouseup' | 'dragstart' | 'dragend' | 'dragging'> {
+  class Text extends MapEventListener<
+    | 'moving'
+    | 'touchmove'
+    | 'touchend'
+    | 'movealong'
+    | 'touchstart'
+    | 'moveend'
+    | 'click'
+    | 'dblclick'
+    | 'rightclick'
+    | 'mousemove'
+    | 'mouseover'
+    | 'mouseout'
+    | 'mousedown'
+    | 'mouseup'
+    | 'dragstart'
+    | 'dragend'
+    | 'dragging'
+  > {
     constructor(opts: TextOptions);
     /** 获取文本标记内容 */
     getText(): string | undefined;
@@ -1101,7 +1265,7 @@ declare namespace AMap {
     getDraggable(): boolean;
     setDraggable(draggable: boolean): void;
     getTop(): boolean;
-    getzIndex(): number | undefined;;
+    getzIndex(): number | undefined;
     getMap(): Map | undefined;
     setMap(map: Map | null): void;
     addTo(map: Map): void;
@@ -1181,9 +1345,9 @@ declare namespace AMap {
     /** 设置文本样式，Object同css样式表，如:{'background-color':'red'} */
     style?: TextStyleOptions;
     // 文本标注的内容，该属性为直接显示在标注上的文本内容。
-    content?: string
+    content?: string;
     // 文本标注方位。若设置了 icon，则 direction 是以 icon 为中心的偏移，若未设置 icon，则相对 position 偏移。 可选值：'top' | 'right' | 'bottom' | 'left' | 'center'。默认值: right
-    direction?: 'top' | 'right' | 'bottom' | 'left' | 'center'
+    direction?: 'top' | 'right' | 'bottom' | 'left' | 'center';
   }
   type TextStyleOptions = Record<string, any>;
   interface OverlayOptions {
@@ -1208,15 +1372,15 @@ declare namespace AMap {
   }
   interface MoveAlongOptions {
     /** 每段动画持续时长, 单位：ms */
-    duration?: (number | AnimationCallback);
+    duration?: number | AnimationCallback;
     /** 每段动画速度，已废弃 */
-    speed?: (number | AnimationCallback);
+    speed?: number | AnimationCallback;
     /** easing 时间函数 */
     easing?: EasingCallback;
     /** 动画是否循环 */
     circlable?: boolean;
     /** 延迟动画时长 */
-    delay?: (number | AnimationCallback);
+    delay?: number | AnimationCallback;
     /** 每段完整动画间隔时长 */
     aniInterval?: number;
     /** 覆盖物是否沿路径旋转 */
@@ -1226,7 +1390,7 @@ declare namespace AMap {
    * 用于展示大量点标记，将点标记按照距离进行聚合，以提高绘制性能。点聚合支持用户自定义样式，以插件形式调用。
    */
   class MarkerCluster extends MapEventListener<'click'> {
-    constructor(map: Map, dataOptions: MarkerClusterDataOptions, MarkerClusterOptions: MarkerClusterOptions)
+    constructor(map: Map, dataOptions: MarkerClusterDataOptions, MarkerClusterOptions: MarkerClusterOptions);
     getClustersCount(): number;
     addData(dataOptions: MarkerClusterDataOptions): void;
     setData(dataOptions: MarkerClusterDataOptions): void;
@@ -1241,7 +1405,7 @@ declare namespace AMap {
     setStyles(Map: Map): void;
     setMaxZoom(zoom: number): void;
   }
-  type MarkerClusterDataOptions = Array<{ lnglat: LngLat[], weight: number }>;
+  type MarkerClusterDataOptions = Array<{ lnglat: LngLat[]; weight: number }>;
   interface MarkerClusterOptions {
     /** 聚合计算时网格的像素大小，默认60 */
     gridSize?: number;
@@ -1275,7 +1439,7 @@ declare namespace AMap {
      * 1. count: 当前聚合点下聚合的 Marker 的数量
      * 2. marker: 当前聚合点显示的 Marker
      */
-    renderClusterMarker?: (opts: { count: number, marker: Marker }) => any;
+    renderClusterMarker?: (opts: { count: number; marker: Marker }) => any;
     /**
      * 该方法用来实现非聚合点的自定义绘制，由开发者自己实现，API 将在绘制每个非聚合点的时候调用这个方法
      * 该函数的入参为一个Object，包含如下属性：
@@ -1284,9 +1448,20 @@ declare namespace AMap {
     renderMarker?: (opts: { marker: Marker }) => any;
   }
   /** 海量点类 */
-  class MassMarks extends MapEventListener<'touchstart' | 'touchend' | 'mousemove' | 'dbclick' | 'click' | 'complete' | 'mouseover' | 'mousedown' | 'mouseup' | 'mouseout'> {
+  class MassMarks extends MapEventListener<
+    | 'touchstart'
+    | 'touchend'
+    | 'mousemove'
+    | 'dbclick'
+    | 'click'
+    | 'complete'
+    | 'mouseover'
+    | 'mousedown'
+    | 'mouseup'
+    | 'mouseout'
+  > {
     /** 官方文档示例，https://a.amap.com/jsapi/static/doc/index.html#massmarks **/
-    constructor(data: MassMarkersDataOptions, opts?: Array<MassMarkersOptions> | MassMarkersOptions)
+    constructor(data: MassMarkersDataOptions, opts?: Array<MassMarkersOptions> | MassMarkersOptions);
     setMap(map: Map | null): void;
     getMap(): Map;
     getData(): MassMarkersDataOptions;
@@ -1301,7 +1476,7 @@ declare namespace AMap {
     setZooms(zooms: Vector): void;
     clear(): void;
   }
-  type MassMarkersDataOptions = Array<{ lnglat: LngLat, style: number }>;
+  type MassMarkersDataOptions = Array<{ lnglat: LngLat; style: number }>;
   interface MassMarkersOptions {
     /** 图标叠加层级，值越大层级越高 */
     zIndex?: number;
@@ -1316,7 +1491,7 @@ declare namespace AMap {
     /** 图标 url */
     url?: string;
     /** 图标显示大小 */
-    size?: (Vector | Size);
+    size?: Vector | Size;
     /** 锚点位置 */
     anchor?: Pixel;
     /** 点展示优先级，默认为使用样式的索引值。 */
@@ -1340,7 +1515,7 @@ declare namespace AMap {
     /** 以给定时间移动点标记到指定位置，加载 AMap.MoveAnimation 后可以使用 */
     moveTo(targetPosition: MoveToOptions, opts?: MoveAlongOptions): void;
   }
-  interface MoveAlongObj { }
+  interface MoveAlongObj {}
   type MoveToOptions = {
     /** 每段动画持续时长, 单位：ms */
     duration?: number;
@@ -1350,7 +1525,7 @@ declare namespace AMap {
     easing?: EasingCallback;
     /** 覆盖物是否沿路径旋转 */
     autoRotation?: boolean;
-  }
+  };
   /** 时间函数回调 */
   type EasingCallback = (passedTime: number) => number;
   /** MoveAnimation 回调函数 */
@@ -1372,7 +1547,9 @@ declare namespace AMap {
     autoRotation?: boolean;
   }
   /** 标注类 */
-  class LabelMarker extends MapEventListener<'mousedown' | 'mouseup' | 'touchstart' | 'touchmove' | 'touchend' | 'click' | 'mousemove' | 'mouseover' | 'mouseout'> {
+  class LabelMarker extends MapEventListener<
+    'mousedown' | 'mouseup' | 'touchstart' | 'touchmove' | 'touchend' | 'click' | 'mousemove' | 'mouseover' | 'mouseout'
+  > {
     constructor(opts: LabelMarkerOptions);
     getName(): string | undefined;
     setName(name: string): void;
@@ -1421,36 +1598,36 @@ declare namespace AMap {
      */
     onMouseDown?(event: MapsEvent): void;
     /**
-    * 鼠标在点标记上按下抬起时触发事件
-    */
+     * 鼠标在点标记上按下抬起时触发事件
+     */
     onMouseUp?(event: MapsEvent): void;
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
     onTouchStart?(event: MapsEvent): void;
     /**
-    * 触摸移动进行中时触发事件，仅适用移动设备
-    */
+     * 触摸移动进行中时触发事件，仅适用移动设备
+     */
     onTouchMove?(event: MapsEvent): void;
     /**
-    *  触摸结束时触发事件，仅适用移动设备
-    */
+     *  触摸结束时触发事件，仅适用移动设备
+     */
     onTouchEnd?(event: MapsEvent): void;
     /**
-    *  鼠标左键单击事件
-    */
+     *  鼠标左键单击事件
+     */
     onClick?(event: MapsEvent): void;
     /**
-    *  鼠标移动
-    */
+     *  鼠标移动
+     */
     onMouseMove?(event: MapsEvent): void;
     /**
-    *  鼠标移近点标记时触发事件
-    */
+     *  鼠标移近点标记时触发事件
+     */
     onMouseOver?(event: MapsEvent): void;
     /**
-    *  鼠标移出点标记时触发事件
-    */
+     *  鼠标移出点标记时触发事件
+     */
     onMouseOut?(event: MapsEvent): void;
   }
 

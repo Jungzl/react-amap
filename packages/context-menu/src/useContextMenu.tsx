@@ -13,7 +13,7 @@ export const useContextMenu = (props = {} as UseContextMenu) => {
     if (!contextMenu) {
       let instance: AMap.ContextMenu = new AMap.ContextMenu({ ...other });
       setContextMenu(instance);
-      const rightclick = (e: AMap.MapsEvent) => instance.open(map, position || e.lnglat);
+      const rightclick = (e: AMap.MapsEvent<'rightclick'>) => instance.open(map, position || e.lnglat);
       map.on('rightclick', rightclick);
       return () => {
         if (instance) {

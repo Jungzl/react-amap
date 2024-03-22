@@ -8,7 +8,7 @@ export interface MarkerProps extends OverlayProps, AMap.MarkerEvents, AMap.Marke
   /** 覆盖物是否可见 */
   visiable?: boolean;
   className?: string;
-  children?: JSX.Element;
+  children?: React.JSX.Element;
 }
 
 export const Marker = forwardRef<MarkerProps & { marker?: AMap.Marker }, MarkerProps>((props, ref) => {

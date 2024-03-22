@@ -259,7 +259,10 @@ declare namespace AMap {
     /** 设置是否强制限制城市 */
     setCityLimit(citylimit: boolean): void;
     /** 设置是否强制限制城市 */
-    search(keyword?: string, callback?: (status: 'complete' | 'error' | 'no_data', result?: AutoCompleteSearchCallback) => void): void;
+    search(
+      keyword?: string,
+      callback?: (status: 'complete' | 'error' | 'no_data', result?: AutoCompleteSearchCallback) => void,
+    ): void;
   }
   interface AutoCompleteSearchCallback {
     /** 查询状态说明 */
@@ -274,7 +277,7 @@ declare namespace AMap {
       district: string;
       /** 区域编码 */
       adcode: string;
-    }>
+    }>;
   }
   interface AutoCompleteOptions {
     /** 输入提示时限定POI类型，多个类型用“|”分隔，目前只支持Poi类型编码如“050000” 默认值：所有类别 */
@@ -298,28 +301,19 @@ declare namespace AMap {
   }
   interface AutoCompleteEvents {
     /** 鼠标或者键盘上下键选择POI信息时触发此事件 */
-    onChoose?(event: AutoCompleteEventsCallback): void;
+    onChoose?(event: AutoCompleteEventsCallback<'choose'>): void;
     /** 鼠标点击或者回车选中某个POI信息时触发此事件 */
-    onSelect?(event: AutoCompleteEventsCallback): void;
+    onSelect?(event: AutoCompleteEventsCallback<'select'>): void;
   }
-  interface AutoCompleteEventsCallback {
-    /**POI唯一标识 */
-    id: string;
-    /**名称 */
-    name: string;
-    /**区域编码 */
-    adcode: string;
-    /**所属区域 */
-    district: string;
-    /**位置 */
-    location: LngLat;
+  interface AutoCompleteEventsCallback<T extends 'choose' | 'select'> {
+    poi: POI;
     /**类型 */
-    type: string;
+    type: T;
   }
 
   /**
-     * 根据输入关键字提示匹配信息，可将Poi类型和城市作为输入提示的限制条件。用户可以通过自定义回调函数取回并显
-     */
+   * 根据输入关键字提示匹配信息，可将Poi类型和城市作为输入提示的限制条件。用户可以通过自定义回调函数取回并显
+   */
   class Autocomplete extends MapEventListener<'choose' | 'select'> {
     constructor(opts: AutoCompleteOptions);
     /** 设置提示Poi类型，多个类型用“|”分隔，POI相关类型请在网站“相关下载”处下载，目前只支持Poi类型编码如“050000” 默认值：所有类别 */
@@ -329,7 +323,10 @@ declare namespace AMap {
     /** 设置是否强制限制城市 */
     setCityLimit(citylimit: boolean): void;
     /** 设置是否强制限制城市 */
-    search(keyword?: string, callback?: (status: 'complete' | 'error' | 'no_data', result?: AutoCompleteSearchCallback) => void): void;
+    search(
+      keyword?: string,
+      callback?: (status: 'complete' | 'error' | 'no_data', result?: AutoCompleteSearchCallback) => void,
+    ): void;
   }
   /** 地点搜索服务插件，提供某一特定地区的位置查询服务。 */
   class PlaceSearch extends MapEventListener<'selectChanged' | 'listElementClick' | 'markerClick'> {
@@ -337,9 +334,13 @@ declare namespace AMap {
     /** 根据输入关键字提示匹配信息，支持中文、拼音 */
     search(keyword: string, callback: (state: string, result: PlaceSearchResult) => void): void;
     /** 根据范围和关键词进行范围查询 */
-    searchInBounds(keyword: string, bounds: AMap.Bounds, callback: (state: string, result: PlaceSearchResult) => void): void;
+    searchInBounds(
+      keyword: string,
+      bounds: AMap.Bounds,
+      callback: (state: string, result: PlaceSearchResult) => void,
+    ): void;
     /** 根据中心点经纬度、半径以及关键字进行周边查询 radius取值范围：0-50000 */
-    searchNearBy(keyword: string, center: AMap.LngLat, radius: number): void
+    searchNearBy(keyword: string, center: AMap.LngLat, radius: number): void;
     /** 根据PGUID 查询POI 详细信息 */
     getDetails(PGUID: string): POI;
     /** 设置查询类别，多个类别用“|”分割 */
@@ -364,18 +365,22 @@ declare namespace AMap {
     name: string;
     /** 兴趣点类型 */
     type: string;
+    typecode: string;
     /** 兴趣点经纬度 */
     location: LngLat;
     /** 地址 */
     address: string;
     /** 离中心点距离，仅周边查询返回 */
     distance: number;
+    /** 行政区划 */
+    district: string;
     /** 电话 */
     tel: string;
     /** 网址 */
     website: string;
     /** poi所在省份编码 */
     pcode: string;
+    city: string[];
     /** poi所在城市编码 */
     citycode: string;
     /** poi所在区域编码 */
@@ -411,9 +416,9 @@ declare namespace AMap {
   /** PlaceSearch 搜索结果回调 */
   interface PlaceSearchResult {
     /** 成功状态说明 */
-    info: string; 
+    info: string;
     /** 发生事件且查无此关键字时，返回建议关键字列表，可根据建议关键字查询 */
-    keywordList: Array<keyword> ;
+    keywordList: Array<keyword>;
     /** 发生事件且查无此关键字且 city 为“全国”时，返回城市建议列表，该列表中每个城市包含一个或多个相关Poi点信息 */
     cityList: Array<{
       /** 建议城市名称 */
@@ -424,7 +429,7 @@ declare namespace AMap {
       adcode: string;
       /** 该城市的建议结果数目 */
       count: string;
-    }> ;
+    }>;
     /** 发生事件时返回兴趣点列表 */
     poiList: {
       /** 页码 */
@@ -434,7 +439,7 @@ declare namespace AMap {
       /** 查询结果总数 */
       count: number;
       /** Poi列表 */
-      pois: Array<POI>
-    } 
+      pois: Array<POI>;
+    };
   }
 }
