@@ -1071,7 +1071,7 @@ declare namespace AMap {
   /**
    * Polyline 编辑器
    */
-  class PolylineEditor extends MapEventListener<'end' | 'remove' | 'addnode' | 'adjust' | 'add'> {
+  class PolylineEditor extends MapEventListener<'end' | 'removenode' | 'addnode' | 'adjust' | 'add'> {
     constructor(map: AMap.Map, polyline: Polyline);
     editable: boolean;
     /** 要显示该polygon的地图对象 */
@@ -1452,7 +1452,7 @@ declare namespace AMap {
     | 'touchstart'
     | 'touchend'
     | 'mousemove'
-    | 'dbclick'
+    | 'dblclick'
     | 'click'
     | 'complete'
     | 'mouseover'

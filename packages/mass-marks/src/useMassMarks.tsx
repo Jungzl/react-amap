@@ -63,13 +63,7 @@ export const useMassMarks = (props = {} as UseMassMarks) => {
   ]);
 
   useEventProperties<AMap.MassMarks, UseMassMarks>(massMarks!, props, [
-    // 'onRightClick',
-    // 'onDragStart',
-    // 'onDragging',
-    // 'onDragEnd',
-    // 'onMoving',
-    // 'onMoveEnd',
-    // 'onMoveAlong',
+    'onComplete',
     'onClick',
     'onDblClick',
     'onMouseMove',

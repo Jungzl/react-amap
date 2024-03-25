@@ -373,8 +373,6 @@ declare namespace AMap {
     | 'AMap.Weather'
     | 'AMap.MoveAnimation';
 
-  type MapEvent<T extends EventType> = (event: MapsEvent<T>) => void;
-
   interface MapEvents {
     /**
      * 地图缩放级别更改后触发

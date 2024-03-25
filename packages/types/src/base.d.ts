@@ -181,13 +181,13 @@ declare namespace AMap {
      * @param event
      * @param handler
      */
-    on(event: T, handler: any): void;
+    on(event: T, handler: MapEvent<T>): void;
     /**
      * 移除事件监听函数
      * @param event
      * @param handler
      */
-    off(event: T, handler: any): void;
+    off(event: T, handler: MapEvent<T>): void;
     /**
      * 判断当前实例是否已经绑定了某个事件回调
      * @param type 事件类型
@@ -214,7 +214,17 @@ declare namespace AMap {
           ? ViewportEventObj<T>
           : T extends DomEventType
             ? DomEventObj<T>
-            : never;
+            : T extends AnimationEventType
+              ? AnimationEventObj<T>
+              : T extends DrawEventType
+                ? DrawEventObj<T>
+                : T extends POIEventType
+                  ? POIEventObj<T>
+                  : T extends EditorEventType
+                    ? EditorEventObj<T>
+                    : never;
+
+  type MapEvent<T extends EventType> = (event: MapsEvent<T>) => void;
 
   /**
    * 表示点标记的图标
@@ -267,24 +277,24 @@ declare namespace AMap {
   /** 共同部分事件定义 */
   interface EventsCommonProps {
     /** 鼠标左键单击事件 */
-    onClick?(event: MapsEvent<'click'>): void;
+    onClick?: MapEvent<'click'>;
     /** 鼠标左键双击事件 */
-    onDblClick?(event: MapsEvent<'dblclick'>): void;
+    onDblClick?: MapEvent<'dblclick'>;
     /** 右键单击 */
-    onRightClick?(event: MapsEvent<'rightclick'>): void;
+    onRightClick?: MapEvent<'rightclick'>;
     /** 鼠标按下 */
-    onMouseDown?(event: MapsEvent<'mousedown'>): void;
+    onMouseDown?: MapEvent<'mousedown'>;
     /** 鼠标抬起 */
-    onMouseUp?(event: MapsEvent<'mouseup'>): void;
+    onMouseUp?: MapEvent<'mouseup'>;
     /** 鼠标经过 */
-    onMouseOver?(event: MapsEvent<'mouseover'>): void;
+    onMouseOver?: MapEvent<'mouseover'>;
     /** 鼠标移出 */
-    onMouseOut?(event: MapsEvent<'mouseout'>): void;
+    onMouseOut?: MapEvent<'mouseout'>;
     /** 触摸开始时触发事件，仅适用移动设备 */
-    onTouchStart?(event: MapsEvent<'touchstart'>): void;
+    onTouchStart?: MapEvent<'touchstart'>;
     /** 触摸移动进行中时触发事件，仅适用移动设备 */
-    onTouchMove?(event: MapsEvent<'touchmove'>): void;
+    onTouchMove?: MapEvent<'touchmove'>;
     /** 触摸结束时触发事件，仅适用移动设备 */
-    onTouchEnd?(event: MapsEvent<'touchend'>): void;
+    onTouchEnd?: MapEvent<'touchend'>;
   }
 }

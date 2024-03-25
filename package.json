@@ -47,10 +47,9 @@
     "coverage": "tsbb test --coverage --bail",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "doc:build": "lerna exec \"npm run build\" --scope website",
-    "start": "lerna exec \"npm run start\" --scope website",
+    "start": "pnpm -F website start",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "remove": "npm run clean && lerna exec \"rm -rf package-lock.json\" --scope @uiw/* --scope website",
-    "clean": "lerna clean --yes"
+    "remove": "pnpm -r exec \"rimraf node_modules\""
   },
   "author": "Kenny Wong <wowohoo@qq.com>",
   "license": "MIT",
@@ -92,6 +91,7 @@
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-test-renderer": "^18.2.0",
+    "rimraf": "^5.0.5",
     "tsbb": "^4.1.14"
   }
 }

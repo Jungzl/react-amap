@@ -17,13 +17,37 @@ declare namespace AMap {
 
   type TouchEventType = 'touchstart' | 'touchmove' | 'touchend';
 
-  type ViewportEventType = 'zoomstart' | 'zoomend' | 'zoomchange' | 'mapmove' | 'movestart' | 'moveend';
+  type ViewportEventType =
+    | 'zoomstart'
+    | 'zoomend'
+    | 'zoomchange'
+    | 'mapmove'
+    | 'movestart'
+    | 'moveend'
+    | 'hide'
+    | 'show';
 
-  type DomEventType = 'resize' | 'complete';
+  type DomEventType = 'resize' | 'complete' | 'open' | 'close';
+
+  type AnimationEventType = 'moving' | 'movealong';
+
+  type DrawEventType = 'draw';
+
+  type POIEventType = 'select' | 'choose';
+
+  type EditorEventType = 'add' | 'end' | 'addnode' | 'adjust' | 'removenode' | 'move';
 
   type MouseEventType = HotspotEventType | BaseMouseEventType;
 
-  type EventType = MouseEventType | TouchEventType | ViewportEventType | DomEventType;
+  type EventType =
+    | MouseEventType
+    | TouchEventType
+    | ViewportEventType
+    | DomEventType
+    | AnimationEventType
+    | DrawEventType
+    | POIEventType
+    | EditorEventType;
 
   interface MapEventAttrs<T extends EventType, U extends MouseEventType | TouchEventType = MouseEventType> {
     /**
@@ -55,17 +79,61 @@ declare namespace AMap {
      * 原始事件对象。
      */
     originEvent: U;
+    /**
+     * 事件触发时的轨迹点索引。
+     */
+    index: number;
+    /**
+     * 事件触发时的轨迹路径。
+     */
+    passedPath: [...[number, number][], LngLat];
+    /**
+     * 事件触发时的轨迹点坐标。
+     */
+    passedPos: [number, number];
+    /**
+     * 事件触发时的轨迹动画进度 0-1。
+     */
+    progress: number;
+    /**
+     * 绘制的矢量图形对象。
+     */
+    obj: Polyline | Polygon | Rectangle | Circle;
+    /**
+     * 触发事件的POI对象。
+     */
+    poi: POI;
   }
 
-  type HotspotEventObj<T extends EventType> = Omit<MapEventAttrs<T>, 'pixel' | 'target' | 'pos'>;
+  type HotspotEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'lnglat' | 'originEvent' | 'id' | 'name'>;
 
-  type BaseMouseEventObj<T extends EventType> = Omit<MapEventAttrs<T>, 'id' | 'name'>;
+  type BaseMouseEventObj<T extends EventType> = Pick<
+    MapEventAttrs<T>,
+    'type' | 'lnglat' | 'pixel' | 'target' | 'originEvent' | 'pos'
+  >;
 
-  type TouchEventObj<T extends EventType> = Omit<MapEventAttrs<T, TouchEventType>, 'id' | 'name'>;
+  type TouchEventObj<T extends EventType> = Pick<
+    MapEventAttrs<T, TouchEventType>,
+    'type' | 'lnglat' | 'pixel' | 'target' | 'originEvent' | 'pos'
+  >;
 
   type ViewportEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'target'>;
 
   type DomEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type'>;
+
+  type AnimationEventObj<T extends EventType> = Pick<
+    MapEventAttrs<T>,
+    'type' | 'target' | 'pos' | 'index' | 'passedPath' | 'passedPos' | 'progress'
+  >;
+
+  type DrawEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'obj'>;
+
+  type POIEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'poi'>;
+
+  type EditorEventObj<T extends EventType> = Pick<
+    MapEventAttrs<T>,
+    T extends 'add' | 'end' ? 'type' | 'target' : 'type' | 'lnglat' | 'pixel' | 'target'
+  >;
 
   abstract class EventEmitter {
     /**
