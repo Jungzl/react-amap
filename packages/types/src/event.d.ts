@@ -49,7 +49,7 @@ declare namespace AMap {
     | POIEventType
     | EditorEventType;
 
-  interface MapEventAttrs<T extends EventType, U extends MouseEventType | TouchEventType = MouseEventType> {
+  interface MapEventAttrs<T extends EventType> {
     /**
      * 事件类型。
      */
@@ -70,15 +70,7 @@ declare namespace AMap {
      * 发生事件时光标所在处的像素坐标。
      */
     pixel: Pixel;
-    pos: [number, number];
-    /**
-     * 发生事件的目标对象，不同类型返回target不同。例如，事件对象是Marker，则target表示目标对象为Marker，事件对象是其他，则随之改变。
-     */
-    target: Map;
-    /**
-     * 原始事件对象。
-     */
-    originEvent: U;
+    pos: Vector2;
     /**
      * 事件触发时的轨迹点索引。
      */
@@ -86,54 +78,79 @@ declare namespace AMap {
     /**
      * 事件触发时的轨迹路径。
      */
-    passedPath: [...[number, number][], LngLat];
+    passedPath: [...Vector2[], LngLat];
     /**
      * 事件触发时的轨迹点坐标。
      */
-    passedPos: [number, number];
+    passedPos: Vector2;
     /**
      * 事件触发时的轨迹动画进度 0-1。
      */
     progress: number;
-    /**
-     * 绘制的矢量图形对象。
-     */
-    obj: Polyline | Polygon | Rectangle | Circle;
     /**
      * 触发事件的POI对象。
      */
     poi: POI;
   }
 
-  type HotspotEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'lnglat' | 'originEvent' | 'id' | 'name'>;
+  interface MapEventOriginEvent<T extends MouseEvent | TouchEvent> {
+    /**
+     * 原始事件对象。
+     */
+    originEvent: T;
+  }
 
-  type BaseMouseEventObj<T extends EventType> = Pick<
+  interface MapEventTarget<T extends MapEventListener> {
+    /**
+     * 发生事件的目标对象，不同类型返回target不同。例如，事件对象是Marker，则target表示目标对象为Marker，事件对象是其他，则随之改变。
+     */
+    target: T;
+  }
+
+  interface MapEventObj {
+    /**
+     * 绘制的矢量图形对象。
+     */
+    obj: Polyline | Polygon | Rectangle | Circle;
+  }
+
+  type HotspotEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'lnglat' | 'id' | 'name'> &
+    MapEventOriginEvent<MouseEvent>;
+
+  type BaseMouseEventObj<T extends EventType, U extends MapEventListener> = Pick<
     MapEventAttrs<T>,
-    'type' | 'lnglat' | 'pixel' | 'target' | 'originEvent' | 'pos'
-  >;
+    'type' | 'lnglat' | 'pixel' | 'pos'
+  > &
+    MapEventOriginEvent<MouseEvent> &
+    MapEventTarget<U>;
 
-  type TouchEventObj<T extends EventType> = Pick<
-    MapEventAttrs<T, TouchEventType>,
-    'type' | 'lnglat' | 'pixel' | 'target' | 'originEvent' | 'pos'
-  >;
+  type TouchEventObj<T extends EventType, U extends MapEventListener> = Pick<
+    MapEventAttrs<T>,
+    'type' | 'lnglat' | 'pixel' | 'pos'
+  > &
+    MapEventOriginEvent<TouchEvent> &
+    MapEventTarget<U>;
 
-  type ViewportEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'target'>;
+  type ViewportEventObj<T extends EventType, U extends MapEventListener> = Pick<MapEventAttrs<T>, 'type'> &
+    MapEventTarget<U>;
 
   type DomEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type'>;
 
-  type AnimationEventObj<T extends EventType> = Pick<
+  type AnimationEventObj<T extends EventType, U extends MapEventListener> = Pick<
     MapEventAttrs<T>,
-    'type' | 'target' | 'pos' | 'index' | 'passedPath' | 'passedPos' | 'progress'
-  >;
+    'type' | 'pos' | 'index' | 'passedPath' | 'passedPos' | 'progress'
+  > &
+    MapEventTarget<U>;
 
-  type DrawEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'obj'>;
+  type DrawEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type'> & MapEventObj;
 
   type POIEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'poi'>;
 
-  type EditorEventObj<T extends EventType> = Pick<
+  type EditorEventObj<T extends EventType, U extends MapEventListener> = Pick<
     MapEventAttrs<T>,
-    T extends 'add' | 'end' ? 'type' | 'target' : 'type' | 'lnglat' | 'pixel' | 'target'
-  >;
+    T extends 'add' | 'end' ? 'type' : 'type' | 'lnglat' | 'pixel'
+  > &
+    MapEventTarget<U>;
 
   abstract class EventEmitter {
     /**

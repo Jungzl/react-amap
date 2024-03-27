@@ -30,13 +30,18 @@ declare namespace AMap {
     /**
      * 控件停靠位置 { top: 5; left: 5; right: 5; bottom: 5 } 或者 'LT': 左上角, 'RT': 右上角, 'LB': 左下角, 'RB': 右下角
      */
-    position?: ('LT' | 'RT' | 'LB' | 'RB') | {
-      top: number; left: number; right: number; bottom: number;
-    };
+    position?:
+      | ('LT' | 'RT' | 'LB' | 'RB')
+      | {
+          top: number;
+          left: number;
+          right: number;
+          bottom: number;
+        };
     /**
      * 相对于地图容器左上角的偏移量，正数代表向右下偏移。默认为AMap.Pixel(10,10)
      */
-    offset?: [number, number];
+    offset?: Vector2;
   }
   /**
    * 比例尺插件。位于地图右下角，用户可控制其显示与隐藏。继承自 AMap.Control [相关示例](https://lbs.amap.com/api/jsapi-v2/example/map-componets/map-with-function-control/)
@@ -78,34 +83,34 @@ declare namespace AMap {
   class Geocoder extends Control {
     constructor(opts: GeocoderOptions);
     /** 将地址信息转化为高德经纬度坐标信息 */
-    getLocation?(keyword: string, ReGeocoderCallback)
+    getLocation?(keyword: string, ReGeocoderCallback);
     /** 地理编码时，设置地址描述所在城市 */
-    setCity(city: string)
+    setCity(city: string);
     /** 将高德经纬度坐标信息转化为结构化的地址信息 */
-    getAddress(location: LngLat | LngLat[], ReGeocoderCallback)
+    getAddress(location: LngLat | LngLat[], ReGeocoderCallback);
   }
   interface ReGeocoderCallback {
-    (status: string, result: ReGeocoderResult): void
+    (status: string, result: ReGeocoderResult): void;
   }
   /**
    * 地理编码
    * https://lbs.amap.com/api/webservice/guide/api/georegeo#geo
    */
   interface ReGeocoderResult {
-    info: string
+    info: string;
     geocode: {
-      formatted_address: string
-      country: string
-      province: string
-      city: string
-      citycode: string
-      district: string
-      street: string
-      number: string
-      adcode: string
-      location: string
-      level: string
-    }
+      formatted_address: string;
+      country: string;
+      province: string;
+      city: string;
+      citycode: string;
+      district: string;
+      street: string;
+      number: string;
+      adcode: string;
+      location: string;
+      level: string;
+    };
   }
   interface GeocoderOptions {
     /**
@@ -132,8 +137,8 @@ declare namespace AMap {
      */
     batch?: boolean;
     /**
-     * 逆地理编码时，返回信息的详略  
-     * 默认值：`base`，返回基本地址信息  
+     * 逆地理编码时，返回信息的详略
+     * 默认值：`base`，返回基本地址信息
      * 取值为：`all`，返回地址信息及附近poi、道路、道路交叉口等信息
      * @default base
      */
@@ -202,7 +207,7 @@ declare namespace AMap {
     /**
      * 缩略图距离地图右下角的像素距离，如 [2,2]
      */
-    offset?: [number, number];
+    offset?: Vector2;
     /**
      * 缩略图的边框样式，同CSS，如"double solid solid double"
      */

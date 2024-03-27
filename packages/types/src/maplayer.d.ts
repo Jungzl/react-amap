@@ -25,9 +25,9 @@ declare namespace AMap {
     /** 获取图层参数信息 */
     getOptions(): any;
     /** 获取该图层可显示的级别范围，默认取值范围为[2-20] */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 获取该图层可显示的级别范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
   }
   interface TileLayerOptions {
     /**
@@ -37,11 +37,11 @@ declare namespace AMap {
     /**
      * 支持的缩放级别范围，默认范围 [2-20]
      */
-    zooms?: [number, number];
+    zooms?: Vector2;
     /**
      * 数据支持的缩放级别范围，默认范围 [2-20]
      */
-    dataZooms?: [number, number];
+    dataZooms?: Vector2;
     /**
      * 透明度，默认 1
      */
@@ -75,8 +75,8 @@ declare namespace AMap {
     getUrl(): string;
     setOpacity(opacity: number): void;
     getOpacity(): number;
-    setZooms(zooms: [number, number]): void;
-    getZooms(): [number, number];
+    setZooms(zooms: Vector2): void;
+    getZooms(): Vector2;
     setzIndex(zIndex: number): void;
     getzIndex(): number;
     getOptions(): any;
@@ -89,7 +89,7 @@ declare namespace AMap {
     /** OGC标准的WMS地图服务的GetMap接口的参数 */
     param?: any;
     /** 支持的缩放级别范围，默认范围 [2-20] */
-    zooms?: [number, number];
+    zooms?: Vector2;
     /** 透明度，默认 1 */
     opacity?: number;
     /** 是否显示，默认 true */
@@ -103,7 +103,7 @@ declare namespace AMap {
   interface WMTSLayerOptions extends WMSLayerOptions {}
   /** 卫星图层类，继承自 TileLayer。 */
   class Satellite extends TileLayer {
-  // class Satellite extends Omit<typeof TileLayer, 'setTileUrl', 'reload'> {
+    // class Satellite extends Omit<typeof TileLayer, 'setTileUrl', 'reload'> {
     constructor(opts: SatelliteLayerOptions);
     /** 销毁图层 */
     destroy(): void;
@@ -146,7 +146,7 @@ declare namespace AMap {
     /** 楼块的围栏和样式设置 */
     BuildingStyleOptions?: BuildingStyleOptions;
     /** 图层缩放等级范围，默认 [2, 20]  (default [2,20]) */
-    zooms?: [number, number];
+    zooms?: Vector2;
     /** 图层透明度，默认为 1 (default 1); */
     opacity?: number;
     /** 图层是否可见，默认为 true (default true); */
@@ -283,12 +283,14 @@ declare namespace AMap {
   }
   type HeatMapDataSet = {
     /** 权重的最大值 */
-    max?: number,
+    max?: number;
     /** 坐标数据集 */
-    data: string | LngLat[] | { lng: number, lat: number, count: number },
+    data: string | LngLat[] | { lng: number; lat: number; count: number };
     /** 数据格式转换 Function */
-    dataParser?: (data: LngLat[] | { lng: number, lat: number, count: number }) => LngLat[] | { lng: number, lat: number, count: number }
-  }
+    dataParser?: (
+      data: LngLat[] | { lng: number; lat: number; count: number },
+    ) => LngLat[] | { lng: number; lat: number; count: number };
+  };
   interface HeatMapOptions {
     /** 热力图中单个点的半径，默认：30，单位：pixel */
     radius?: number;
@@ -324,9 +326,9 @@ declare namespace AMap {
     /** 设置标注层叠加顺序 */
     setzIndex(zIndex: number): void;
     /** 获取标注层显示层级范围 */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 设置标注层显示层级范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
     // ^^^^^^^^ 上面公共部分 ^^^^^^^^
 
     /** 获取标注层是否支持内部标注避让 */
@@ -372,9 +374,9 @@ declare namespace AMap {
     /** 设置标注层叠加顺序 */
     setzIndex(zIndex: number): void;
     /** 获取标注层显示层级范围 */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 设置标注层显示层级范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
     // ^^^^^^^^ 上面公共部分 ^^^^^^^^
     getOptions(): CustomLayerOption;
     setMap(map: Map): void;
@@ -393,9 +395,9 @@ declare namespace AMap {
     /** 设置标注层叠加顺序 */
     setzIndex(zIndex: number): void;
     /** 获取标注层显示层级范围 */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 设置标注层显示层级范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
     // ^^^^^^^^ 上面公共部分 ^^^^^^^^
     getOptions(): any;
     destroy(): void;
@@ -436,9 +438,9 @@ declare namespace AMap {
     /** 设置标注层叠加顺序 */
     setzIndex(zIndex: number): void;
     /** 获取标注层显示层级范围 */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 设置标注层显示层级范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
     // ^^^^^^^^ 上面公共部分 ^^^^^^^^
     getOptions(): CustomLayerOption;
     getImageUrl(): string;

@@ -18,7 +18,7 @@ declare namespace AMap {
      * @param immediately 是否立即过渡到目标位置
      * @param duration 如果使用动画过度，动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
-    setCenter(center: [number, number] | LngLat, immediately?: boolean, duration?: number): void;
+    setCenter(center: Vector2 | LngLat, immediately?: boolean, duration?: number): void;
     /**
      * 地图缩放至指定级别并以指定点为地图显示中心点
      * @param zoom 缩放等级
@@ -26,7 +26,7 @@ declare namespace AMap {
      * @param immediately 是否立即过渡到目位置
      * @param duration 如果使用动画过度，动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
-    setZoomAndCenter(zoom: number, center: [number, number] | LngLat, immediately: boolean, duration?: number): void;
+    setZoomAndCenter(zoom: number, center: Vector2 | LngLat, immediately: boolean, duration?: number): void;
     /**
      * 获取当前地图视图范围/可视区域。
      * @returns 边界经纬度
@@ -87,7 +87,7 @@ declare namespace AMap {
      * @param lnglat
      * @param duration 动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
-    panTo(lnglat: [number, number] | LngLat, duration?: number): void;
+    panTo(lnglat: Vector2 | LngLat, duration?: number): void;
     /**
      * 如果使用动画过度，动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      * @param x 横轴方向
@@ -204,7 +204,7 @@ declare namespace AMap {
      * @param lnglat 经纬度
      * @returns 莫卡托坐标（单位：米）
      */
-    lngLatToCoords(lnglat: [number, number] | LngLat): any;
+    lngLatToCoords(lnglat: Vector2 | LngLat): any;
     /**
      * 清除 Map 的限制区域
      */
@@ -214,11 +214,11 @@ declare namespace AMap {
      * @param coords 莫卡托坐标（单位：米）
      * @returns 经纬度
      */
-    coordsToLngLat(coords: [number, number]): void;
+    coordsToLngLat(coords: Vector2): void;
     /**
      * 获取地图缩放等级范围
      */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /**
      * 地图经纬度坐标转为地图容器像素坐标 [相关示例](https://lbs.amap.com/api/jsapi-v2/example/axis/transformate-between-coordinates-of-lnglat-and-map-container/)
      * @param lnglat 经纬度
@@ -541,7 +541,7 @@ declare namespace AMap {
     /**
      * 初始中心经纬度
      */
-    center?: [number, number] | LngLat;
+    center?: Vector2 | LngLat;
     /**
      * 	地图显示的缩放级别，可以设置为浮点数；若center与level未赋值，地图初始化默认显示用户所在城市范围。
      */
@@ -567,7 +567,7 @@ declare namespace AMap {
     /**
      * (default [2,20])	地图显示的缩放级别范围, 默认为 [2, 20] ，取值范围 [2 ~ 20]
      */
-    zooms?: [number, number];
+    zooms?: Vector2;
     /**
      * (default true)	是否展示地图文字和 POI 信息。
      */

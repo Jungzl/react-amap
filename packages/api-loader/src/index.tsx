@@ -41,7 +41,7 @@ export interface APILoaderConfig {
 export interface APILoaderProps extends APILoaderConfig {}
 
 /**
- * APILoader 用于加载百度地图依赖
+ * APILoader 用于加载高德地图依赖
  */
 export const APILoader: FC<PropsWithChildren<APILoaderProps>> = (props) => {
   const { children, ...config } = props;

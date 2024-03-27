@@ -86,7 +86,8 @@ declare namespace AMap {
     distance?(): number;
   }
   type Vector = number[];
-  type LngLatLike = LngLat | [number, number];
+  type Vector2 = [number, number];
+  type LngLatLike = LngLat | Vector2;
   /**
    * 地物对象的经纬度矩形范围。
    */
@@ -204,24 +205,24 @@ declare namespace AMap {
     emit(type: string, data: any): any;
   }
 
-  type MapsEvent<T extends EventType = EventType> = T extends BaseMouseEventType
-    ? BaseMouseEventObj<T>
+  type MapsEvent<T extends EventType = EventType, U extends MapEventListener = Map> = T extends BaseMouseEventType
+    ? BaseMouseEventObj<T, U>
     : T extends TouchEventType
-      ? TouchEventObj<T>
+      ? TouchEventObj<T, U>
       : T extends HotspotEventType
         ? HotspotEventObj<T>
         : T extends ViewportEventType
-          ? ViewportEventObj<T>
+          ? ViewportEventObj<T, U>
           : T extends DomEventType
             ? DomEventObj<T>
             : T extends AnimationEventType
-              ? AnimationEventObj<T>
+              ? AnimationEventObj<T, U>
               : T extends DrawEventType
                 ? DrawEventObj<T>
                 : T extends POIEventType
                   ? POIEventObj<T>
                   : T extends EditorEventType
-                    ? EditorEventObj<T>
+                    ? EditorEventObj<T, U>
                     : never;
 
   type MapEvent<T extends EventType> = (event: MapsEvent<T>) => void;

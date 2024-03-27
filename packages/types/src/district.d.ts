@@ -21,13 +21,13 @@ declare namespace AMap {
     /** 获取样式信息 */
     getStyles(): DistrictLayerStyle;
     /** 获取该图层可显示的级别范围 */
-    setZooms(zooms: [number, number]): void;
+    setZooms(zooms: Vector2): void;
     /** 获取图层透明度 */
     getOptions(): any;
     /** 获取图层透明度 */
     getOpacity(): number;
     /** 获取该图层可显示的级别范围，默认取值范围为[2-20] */
-    getZooms(): [number, number];
+    getZooms(): Vector2;
     /** 获取图层层级 */
     getzIndex(): number;
     /** 设置图层透明度，范围 [0 ~ 1] */
@@ -55,14 +55,14 @@ declare namespace AMap {
     /** (default true) 图层是否可见，默认为 true */
     visible?: boolean;
     /** (default [2,20]) 图层缩放等级范围，默认 [2, 20] */
-    zooms?: [number, number];
+    zooms?: Vector2;
     /**
      * 为简易行政区图设定各面的填充颜色和描边颜色。 styles各字段的值可以是颜色值，也可以是一个返回颜色值* 的回调函数function。支持的颜色格式有：
      * 1. #RRGGBB，如：'#FFFFFF'
      * 2. rgba()，如：'rgba(255,255,255,1)'
      * 3. rgb()，如：'rgb(255,255,255)'
      * 4. [r,g,b,a] ，如： [1,1,1,1]
-     * 5. ''，代表不赋予颜色 * 
+     * 5. ''，代表不赋予颜色 *
      */
     styles?: DistrictLayerStyle;
   }

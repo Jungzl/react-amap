@@ -682,7 +682,7 @@ declare namespace AMap {
     /** 设置椭圆的中心点 */
     setCenter(center: LngLatLike): void;
     /** 设置椭圆的中心点 */
-    setRadius(radius: [number, number]): void;
+    setRadius(radius: Vector2): void;
     /** 获取椭圆的圆心 */
     getCenter(): LngLat;
     /** 获取椭圆的半径 */
@@ -705,7 +705,7 @@ declare namespace AMap {
      * 椭圆的半径，用2个元素的数组表示，单位：米 如： radius: [1000, 2000] 表示横向半径是1000，纵向的半径是2000
      * @default [1000,1000] 默认值
      */
-    radius?: [number, number];
+    radius?: Vector2;
     /**
      * (default 10) 椭圆覆盖物的叠加顺序。地图上存在多个多边形覆盖物叠加时，通过该属性使级别较高的多边形覆盖物在上层显示
      */
@@ -1352,20 +1352,20 @@ declare namespace AMap {
   type TextStyleOptions = Record<string, any>;
   interface OverlayOptions {
     map?: Map;
-    position?: [number, number];
+    position?: Vector2;
     content?: string | HTMLElement;
     visible?: boolean;
     zIndex?: number;
     extData?: any;
-    size?: [number, number] | Size;
-    offset?: [number, number] | Pixel;
-    anchor?: string | [number, number];
+    size?: Vector2 | Size;
+    offset?: Vector2 | Pixel;
+    anchor?: string | Vector2;
     rotate?: number;
     angle?: number;
     orientation?: number | null;
     scale?: number;
     draggable?: boolean;
-    zooms?: [number, number];
+    zooms?: Vector2;
     noSelect?: boolean;
     innerOverlay?: boolean;
     isCustom?: boolean;
