@@ -27,6 +27,10 @@
     "地图",
     "高德地图"
   ],
+  "scripts": {
+    "watch": "tsbb watch \"src/*.{tsx,ts}\" --use-babel",
+    "build": "tsbb build \"src/*.{tsx,ts}\" --use-babel"
+  },
   "peerDependencies": {
     "react": ">=16.14.0",
     "react-dom": ">=16.14.0"

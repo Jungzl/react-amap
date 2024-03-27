@@ -32,6 +32,13 @@
     "地图",
     "高德地图"
   ],
+  "scripts": {
+    "watch": "tsbb watch \"src/*.{tsx,ts}\" --use-babel",
+    "build": "tsbb build \"src/*.{tsx,ts}\" --use-babel",
+    "bundle:watch": "ncc watch \"src/index.tsx\" --target web --filename amap",
+    "bundle": "ncc build \"src/index.tsx\" --target web --filename amap",
+    "bundle:min": "ncc build \"src/index.tsx\" --target web --filename amap --minify"
+  },
   "dependencies": {
     "@uiw/react-amap-api-loader": "workspace:*",
     "@uiw/react-amap-auto-complete": "workspace:*",
