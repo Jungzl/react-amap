@@ -168,7 +168,7 @@ declare namespace AMap {
      */
     toString?(): string;
   }
-  class MapEventListener<T extends EventType = EventType> {
+  class MapEventListener<T extends EventType> {
     /**
      * 设置控件可见
      */
@@ -182,13 +182,13 @@ declare namespace AMap {
      * @param event
      * @param handler
      */
-    on(event: T, handler: MapEvent<T>): void;
+    on(event: Lowercase<T>, handler: MapEvent<T>): void;
     /**
      * 移除事件监听函数
      * @param event
      * @param handler
      */
-    off(event: T, handler: MapEvent<T>): void;
+    off(event: Lowercase<T>, handler: MapEvent<T>): void;
     /**
      * 判断当前实例是否已经绑定了某个事件回调
      * @param type 事件类型
@@ -226,6 +226,14 @@ declare namespace AMap {
                     : never;
 
   type MapEvent<T extends EventType> = (event: MapsEvent<T>) => void;
+
+  type MapEventProps<T extends EventType> = {
+    [U in EventToProp<T>]?: MapEvent<EventFromProp<U>>;
+  };
+
+  // type EventCallback<T extends EventType> = (event: Lowercase<T>, callback: MapEvent<T>) => void;
+
+  // type TEST = EventCallback<'select' | 'dblClick'>;
 
   /**
    * 表示点标记的图标
@@ -280,22 +288,22 @@ declare namespace AMap {
     /** 鼠标左键单击事件 */
     onClick?: MapEvent<'click'>;
     /** 鼠标左键双击事件 */
-    onDblClick?: MapEvent<'dblclick'>;
+    onDblClick?: MapEvent<'dblClick'>;
     /** 右键单击 */
-    onRightClick?: MapEvent<'rightclick'>;
+    onRightClick?: MapEvent<'rightClick'>;
     /** 鼠标按下 */
-    onMouseDown?: MapEvent<'mousedown'>;
+    onMouseDown?: MapEvent<'mouseDown'>;
     /** 鼠标抬起 */
-    onMouseUp?: MapEvent<'mouseup'>;
+    onMouseUp?: MapEvent<'mouseUp'>;
     /** 鼠标经过 */
-    onMouseOver?: MapEvent<'mouseover'>;
+    onMouseOver?: MapEvent<'mouseOver'>;
     /** 鼠标移出 */
-    onMouseOut?: MapEvent<'mouseout'>;
+    onMouseOut?: MapEvent<'mouseOut'>;
     /** 触摸开始时触发事件，仅适用移动设备 */
-    onTouchStart?: MapEvent<'touchstart'>;
+    onTouchStart?: MapEvent<'touchStart'>;
     /** 触摸移动进行中时触发事件，仅适用移动设备 */
-    onTouchMove?: MapEvent<'touchmove'>;
+    onTouchMove?: MapEvent<'touchMove'>;
     /** 触摸结束时触发事件，仅适用移动设备 */
-    onTouchEnd?: MapEvent<'touchend'>;
+    onTouchEnd?: MapEvent<'touchEnd'>;
   }
 }

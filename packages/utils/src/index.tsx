@@ -94,23 +94,22 @@ export function usePrevious<T>(value: T) {
  * ]);
  * ```
  */
-export function useEventProperties<T extends AMap.MapEventListener, F>(
-  instance: T,
-  props = {} as F,
-  eventNames: string[] = [],
-) {
+export function useEventProperties<
+  T extends AMap.EventType,
+  U extends AMap.MapEventListener<T> = AMap.MapEventListener<T>,
+>(instance: U, props: AMap.MapEventProps<T>, eventNames: AMap.EventToProp<T>[] = []) {
   eventNames.forEach((name) => {
-    const eventHandle = props[name as keyof F] as AMap.MapEvent<any>;
+    const eventHandle = (props || {})[name] as unknown as AMap.MapEvent<T>;
+    const eventName = name.replace(/^on/, '').toLocaleLowerCase() as Lowercase<T>;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       if (!instance) return;
-      let eName = name.toLocaleLowerCase().replace(/^on/, '') as AMap.EventType;
-      if (eventHandle && eName) {
-        instance.on(eName, eventHandle);
+      if (eventHandle && eventName) {
+        instance.on(eventName, eventHandle);
       }
       return () => {
-        if (eName && eventHandle) {
-          instance.off(eName, eventHandle);
+        if (eventName && eventHandle) {
+          instance.off(eventName, eventHandle);
         }
       };
     }, [instance, eventHandle]);

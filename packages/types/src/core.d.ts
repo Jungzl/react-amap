@@ -6,7 +6,7 @@ declare namespace AMap {
   /**
    * 地图对象类，封装了地图的属性设置、图层变更、事件交互等接口的类。
    */
-  class Map extends MapEventListener<EventType> {
+  class Map extends MapEventListener<AllMapEvents> {
     /**
      * @param div 构造一个地图对象，参数 container 中传入地图容器 DIV 的 ID值 或者 DIV对象，opts 地图初始化参数对象，参数详情参看 MapOptions 列表。注意：地图容器在创建之前必须拥有实际大小，否则可能出现底图无法渲染的问题。
      * @param opts 地图初始化参数
@@ -373,47 +373,52 @@ declare namespace AMap {
     | 'AMap.Weather'
     | 'AMap.MoveAnimation';
 
-  interface MapEvents {
+  type AllMapEvents = Exclude<
+    EventType,
+    DrawEventType | AnimationEventType | EditorEventType | POIEventType | 'hide' | 'show' | 'open' | 'close'
+  >;
+
+  interface MapEvents extends MapEventProps<AllMapEvents> {
     /**
      * 地图缩放级别更改后触发
      */
-    onZoomChange?: MapEvent<'zoomchange'>;
+    onZoomChange?: MapEvent<'zoomChange'>;
     /**
      * 地图平移时触发事件
      */
-    onMapMove?: MapEvent<'mapmove'>;
+    onMapMove?: MapEvent<'mapMove'>;
     /**
      * 鼠标在地图上移动时触发
      */
-    onMouseMove?: MapEvent<'mousemove'>;
+    onMouseMove?: MapEvent<'mouseMove'>;
     /**
      * 鼠标滚轮开始缩放地图时触发
      */
-    onMouseWheel?: MapEvent<'mousewheel'>;
+    onMouseWheel?: MapEvent<'mouseWheel'>;
     /**
      * 鼠标移入地图容器内时触发
      */
-    onMouseOver?: MapEvent<'mouseover'>;
+    onMouseOver?: MapEvent<'mouseOver'>;
     /**
      * 鼠标移出地图容器时触发
      */
-    onMouseOut?: MapEvent<'mouseout'>;
+    onMouseOut?: MapEvent<'mouseOut'>;
     /**
      * 鼠标在地图上单击抬起时触发
      */
-    onMouseUp?: MapEvent<'mouseup'>;
+    onMouseUp?: MapEvent<'mouseUp'>;
     /**
      * 鼠标在地图上单击按下时触发
      */
-    onMouseDown?: MapEvent<'mousedown'>;
+    onMouseDown?: MapEvent<'mouseDown'>;
     /**
      * 缩放开始时触发
      */
-    onZoomStart?: MapEvent<'zoomstart'>;
+    onZoomStart?: MapEvent<'zoomStart'>;
     /**
      * 鼠标左键双击事件
      */
-    onDblClick?: MapEvent<'dblclick'>;
+    onDblClick?: MapEvent<'dblClick'>;
     /**
      * 鼠标左键单击事件
      */
@@ -421,23 +426,23 @@ declare namespace AMap {
     /**
      * 缩放结束时触发
      */
-    onZoomEnd?: MapEvent<'zoomend'>;
+    onZoomEnd?: MapEvent<'zoomEnd'>;
     /**
      * 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
      */
-    onMoveEnd?: MapEvent<'moveend'>;
+    onMoveEnd?: MapEvent<'moveEnd'>;
     /**
      * 鼠标右键单击事件
      */
-    onRightClick?: MapEvent<'rightclick'>;
+    onRightClick?: MapEvent<'rightClick'>;
     /**
      * 地图平移开始时触发
      */
-    onMoveStart?: MapEvent<'movestart'>;
+    onMoveStart?: MapEvent<'moveStart'>;
     /**
      * 开始拖拽地图时触发
      */
-    onDragStart?: MapEvent<'dragstart'>;
+    onDragStart?: MapEvent<'dragStart'>;
     /**
      * 拖拽地图过程中触发
      */
@@ -445,23 +450,23 @@ declare namespace AMap {
     /**
      * 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
      */
-    onDragEnd?: MapEvent<'dragend'>;
+    onDragEnd?: MapEvent<'dragEnd'>;
     /**
      * 鼠标点击热点时触发
      */
-    onHotspotClick?: MapEvent<'hotspotclick'>;
+    onHotspotClick?: MapEvent<'hotspotClick'>;
     /**
      * 鼠标移出热点时触发
      */
-    onHotspotOut?: MapEvent<'hotspotout'>;
+    onHotspotOut?: MapEvent<'hotspotOut'>;
     /**
      * 鼠标滑过热点时触发
      */
-    onHotspotOver?: MapEvent<'hotspotover'>;
+    onHotspotOver?: MapEvent<'hotspotOver'>;
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
-    onTouchStart?: MapEvent<'touchstart'>;
+    onTouchStart?: MapEvent<'touchStart'>;
     /**
      * 地图资源加载完成后触发事件
      */
@@ -469,11 +474,11 @@ declare namespace AMap {
     /**
      * 拖拽地图过程中触发，仅适用移动设备
      */
-    onTouchMove?: MapEvent<'touchmove'>;
+    onTouchMove?: MapEvent<'touchMove'>;
     /**
      * 触摸结束时触发事件，仅适用移动设备
      */
-    onTouchEnd?: MapEvent<'touchend'>;
+    onTouchEnd?: MapEvent<'touchEnd'>;
     /**
      * 地图容器尺寸改变事件
      */

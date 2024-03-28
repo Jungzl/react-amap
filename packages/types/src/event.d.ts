@@ -1,46 +1,45 @@
 declare namespace AMap {
-  type HotspotEventType = 'hotspotclick' | 'hotspotover' | 'hotspotout';
+  type HotspotEventType = 'hotspotClick' | 'hotspotOver' | 'hotspotOut';
 
   type BaseMouseEventType =
     | 'click'
-    | 'dblclick'
-    | 'rightclick'
-    | 'mousedown'
-    | 'mouseup'
-    | 'mouseover'
-    | 'mouseout'
-    | 'mousemove'
-    | 'mousewheel'
-    | 'dragstart'
+    | 'dblClick'
+    | 'rightClick'
+    | 'mouseDown'
+    | 'mouseUp'
+    | 'mouseOver'
+    | 'mouseOut'
+    | 'mouseMove'
+    | 'mouseWheel'
+    | 'dragStart'
     | 'dragging'
-    | 'dragend';
+    | 'dragEnd';
 
-  type TouchEventType = 'touchstart' | 'touchmove' | 'touchend';
+  type TouchEventType = 'touchStart' | 'touchMove' | 'touchEnd';
 
   type ViewportEventType =
-    | 'zoomstart'
-    | 'zoomend'
-    | 'zoomchange'
-    | 'mapmove'
-    | 'movestart'
-    | 'moveend'
+    | 'zoomStart'
+    | 'zoomEnd'
+    | 'zoomChange'
+    | 'mapMove'
+    | 'moveStart'
+    | 'moveEnd'
     | 'hide'
     | 'show';
 
   type DomEventType = 'resize' | 'complete' | 'open' | 'close';
 
-  type AnimationEventType = 'moving' | 'movealong';
+  type AnimationEventType = 'moving' | 'moveAlong';
 
   type DrawEventType = 'draw';
 
   type POIEventType = 'select' | 'choose';
 
-  type EditorEventType = 'add' | 'end' | 'addnode' | 'adjust' | 'removenode' | 'move';
-
-  type MouseEventType = HotspotEventType | BaseMouseEventType;
+  type EditorEventType = 'add' | 'end' | 'addNode' | 'adjust' | 'removeNode' | 'move';
 
   type EventType =
-    | MouseEventType
+    | HotspotEventType
+    | BaseMouseEventType
     | TouchEventType
     | ViewportEventType
     | DomEventType
@@ -49,11 +48,15 @@ declare namespace AMap {
     | POIEventType
     | EditorEventType;
 
+  type EventToProp<T extends EventType> = `on${Capitalize<T>}`;
+
+  type EventFromProp<T extends EventToProp<EventType>> = T extends `on${infer U}` ? Uncapitalize<U> : never;
+
   interface MapEventAttrs<T extends EventType> {
     /**
      * 事件类型。
      */
-    type: T;
+    type: Lowercase<T>;
     /**
      * 热点的名称。
      */

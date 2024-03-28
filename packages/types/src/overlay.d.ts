@@ -302,32 +302,32 @@ declare namespace AMap {
     /**
      * 鼠标移动
      */
-    onMouseMove?(event: MapsEvent): void;
+    onMouseMove?: MapEvent<'mouseMove'>;
     /**
      * 开始拖拽点标记时触发事件
      */
-    onDragStart?(event: MapsEvent): void;
+    onDragStart?: MapEvent<'dragStart'>;
     /**
      * 鼠标拖拽移动点标记时触发事件
      */
-    onDragging?(event: MapsEvent): void;
+    onDragging?: MapEvent<'dragging'>;
     /**
      * 点标记拖拽移动结束触发事件
      */
-    onDragEnd?(event: MapsEvent): void;
+    onDragEnd?: MapEvent<'dragEnd'>;
     /**
      * 点标记在执行moveTo，moveAlong动画时触发事件，Object对象的格式是{passedPath:Array.<LngLat>}。
      * 其中passedPath为Marker对象在moveAlong或者moveTo过程中已经走过的路径。
      */
-    onMoving?(obj: { passedPath: Array<LngLat> }): void;
+    onMoving?: MapEvent<'moving'>;
     /**
      * 点标记执行moveTo动画结束时触发事件，也可以由moveAlong方法触发
      */
-    onMoveEnd?(): void;
+    onMoveEnd?: MapEvent<'moveEnd'>;
     /**
      * 点标记执行moveAlong动画一次后触发事件
      */
-    onMoveAlong?(): void;
+    onMoveAlong?: MapEvent<'moveAlong'>;
   }
   class MarkerShape {
     constructor(opts: MarkerShapeOptions);
@@ -409,9 +409,9 @@ declare namespace AMap {
     contains(point: LngLatLike): boolean;
   }
   interface PolylineEvents extends EventsCommonProps {
-    onDragStart?(event: MapsEvent): void;
-    onDragEnd?(event: MapsEvent): void;
-    onDragging?(event: MapsEvent): void;
+    onDragStart?: MapEvent<'dragStart'>;
+    onDragEnd?: MapEvent<'dragEnd'>;
+    onDragging?: MapEvent<'dragging'>;
   }
 
   interface PolylineOptions {
@@ -1022,11 +1022,9 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   interface PolygonEvents extends EventsCommonProps {
-    onDragStart?(event: MapsEvent): void;
-    onDragEnd?(event: MapsEvent): void;
-    onDragging?(event: MapsEvent): void;
-    /** 属性发生变化时 */
-    onChange?(): void;
+    onDragStart?: MapEvent<'dragStart'>;
+    onDragEnd?: MapEvent<'dragEnd'>;
+    onDragging?: MapEvent<'dragging'>;
   }
   /**
    * Polygon 编辑器
@@ -1301,13 +1299,13 @@ declare namespace AMap {
     moveTo(targetPosition: MoveToOptions, opts?: MoveAlongOptions): void;
   }
   interface TextEvents extends EventsCommonProps {
-    onMoveaLong?(): void;
-    onMoving?(obj: { passedPath: Array<LngLat> }): void;
-    onMoveEnd?(): void;
-    onDragStart?(event: MapsEvent): void;
-    onDragEnd?(event: MapsEvent): void;
-    onDragging?(event: MapsEvent): void;
-    onMouseMove?(event: MapsEvent): void;
+    onMoveALong?: MapEvent<'moveAlong'>;
+    onMoving?: MapEvent<'moving'>;
+    onMoveEnd?: MapEvent<'moveEnd'>;
+    onDragStart?: MapEvent<'dragStart'>;
+    onDragEnd?: MapEvent<'dragEnd'>;
+    onDragging?: MapEvent<'dragging'>;
+    onMouseMove?: MapEvent<'mouseMove'>;
   }
   interface TextOptions {
     /** 要显示该marker的地图对象 */
@@ -1596,39 +1594,39 @@ declare namespace AMap {
     /**
      * 鼠标在点标记上按下时触发事件
      */
-    onMouseDown?(event: MapsEvent): void;
+    onMouseDown?: MapEvent<'mouseDown'>;
     /**
      * 鼠标在点标记上按下抬起时触发事件
      */
-    onMouseUp?(event: MapsEvent): void;
+    onMouseUp?: MapEvent<'mouseUp'>;
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
-    onTouchStart?(event: MapsEvent): void;
+    onTouchStart?: MapEvent<'touchStart'>;
     /**
      * 触摸移动进行中时触发事件，仅适用移动设备
      */
-    onTouchMove?(event: MapsEvent): void;
+    onTouchMove?: MapEvent<'touchMove'>;
     /**
      *  触摸结束时触发事件，仅适用移动设备
      */
-    onTouchEnd?(event: MapsEvent): void;
+    onTouchEnd?: MapEvent<'touchEnd'>;
     /**
      *  鼠标左键单击事件
      */
-    onClick?(event: MapsEvent): void;
+    onClick?: MapEvent<'click'>;
     /**
      *  鼠标移动
      */
-    onMouseMove?(event: MapsEvent): void;
+    onMouseMove?: MapEvent<'mouseMove'>;
     /**
      *  鼠标移近点标记时触发事件
      */
-    onMouseOver?(event: MapsEvent): void;
+    onMouseOver?: MapEvent<'mouseOver'>;
     /**
      *  鼠标移出点标记时触发事件
      */
-    onMouseOut?(event: MapsEvent): void;
+    onMouseOut?: MapEvent<'mouseOut'>;
   }
 
   class ContextMenu extends MapEventListener<'open' | 'close'> {
@@ -1648,10 +1646,10 @@ declare namespace AMap {
     /** 右键菜单内容（针对自定义菜单时，添加菜单内容及功能。可以是HTML要素字符串或者HTML DOM对象。） */
     content?: string | HTMLElement;
   }
-  interface ContextMenuEvents {
+  interface ContextMenuEvents extends MapEventProps<'open' | 'close'> {
     /** 菜单打开之后触发事件 */
-    onOpen?(opts: { type: string }): void;
+    onOpen?: MapEvent<'open'>;
     /** 菜单关闭之后触发事件 */
-    onClose?(opts: { type: string }): void;
+    onClose?: MapEvent<'close'>;
   }
 }
