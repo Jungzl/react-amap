@@ -3,7 +3,7 @@ import { OverlayProps } from '@uiw/react-amap-map';
 import { useInfoWindow } from './useInfoWindow';
 
 export * from './useInfoWindow';
-export interface InfoWindowProps extends OverlayProps, AMap.InforWindowEvents, AMap.InforWindowOptions {
+export interface InfoWindowProps extends OverlayProps, AMap.InfoWindowEvents, AMap.InfoWindowOptions {
   /** 覆盖物是否可见 */
   visiable?: boolean;
   children?: React.JSX.Element;

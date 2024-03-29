@@ -182,13 +182,13 @@ declare namespace AMap {
      * @param event
      * @param handler
      */
-    on(event: Lowercase<T>, handler: MapEvent<T>): void;
+    on<U extends T>(event: Lowercase<U>, handler: MapEvent<U>): void;
     /**
      * 移除事件监听函数
      * @param event
      * @param handler
      */
-    off(event: Lowercase<T>, handler: MapEvent<T>): void;
+    off<U extends T>(event: Lowercase<U>, handler: MapEvent<U>): void;
     /**
      * 判断当前实例是否已经绑定了某个事件回调
      * @param type 事件类型
@@ -205,7 +205,7 @@ declare namespace AMap {
     emit(type: string, data: any): any;
   }
 
-  type MapsEvent<T extends EventType = EventType, U extends MapEventListener = Map> = T extends BaseMouseEventType
+  type MapsEvent<T extends EventType, U extends MapEventListener = Map> = T extends BaseMouseEventType
     ? BaseMouseEventObj<T, U>
     : T extends TouchEventType
       ? TouchEventObj<T, U>
@@ -225,15 +225,11 @@ declare namespace AMap {
                     ? EditorEventObj<T, U>
                     : never;
 
-  type MapEvent<T extends EventType> = (event: MapsEvent<T>) => void;
+  type MapEvent<T extends EventType, U extends MapEventListener = Map> = (event: MapsEvent<T, U>) => void;
 
-  type MapEventProps<T extends EventType> = {
-    [U in EventToProp<T>]?: MapEvent<EventFromProp<U>>;
+  type MapEventProps<T extends EventType, U extends MapEventListener = Map> = {
+    [K in EventToProp<T>]?: MapEvent<EventFromProp<K>, U>;
   };
-
-  // type EventCallback<T extends EventType> = (event: Lowercase<T>, callback: MapEvent<T>) => void;
-
-  // type TEST = EventCallback<'select' | 'dblClick'>;
 
   /**
    * 表示点标记的图标
@@ -283,8 +279,21 @@ declare namespace AMap {
      */
     imageSize?: Size;
   }
+  type CommonAllEvents = Extract<
+    EventType,
+    | 'click'
+    | 'dblClick'
+    | 'rightClick'
+    | 'mouseDown'
+    | 'mouseUp'
+    | 'mouseOver'
+    | 'mouseOut'
+    | 'touchStart'
+    | 'touchMove'
+    | 'touchEnd'
+  >;
   /** 共同部分事件定义 */
-  interface EventsCommonProps {
+  interface EventsCommonProps extends MapEventProps<CommonAllEvents> {
     /** 鼠标左键单击事件 */
     onClick?: MapEvent<'click'>;
     /** 鼠标左键双击事件 */

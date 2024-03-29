@@ -30,7 +30,7 @@ export const useRectangle = (props = {} as UseRectangle) => {
 
   useVisiable(rectangle!, visiable);
   useSettingProperties<AMap.Rectangle, UseRectangle>(rectangle!, props, ['Bounds', 'Options', 'Map', 'ExtData']);
-  useEventProperties<AMap.Rectangle, UseRectangle>(rectangle!, props, [
+  useEventProperties<AMap.RectangleAllEvents, AMap.Rectangle>(rectangle!, props, [
     'onHide',
     'onShow',
     'onClick',

@@ -30,20 +30,21 @@ export const PolygonEditor = forwardRef<PolygonEditorProps, PolygonEditorProps>(
     }
     if (visiable && !active && polygon) {
       polyEditor.close();
-      props.onEnd && props.onEnd({ target: polygon });
+      props.onEnd && props.onEnd({ type: 'end', target: polygon });
     } else if (visiable && active && polygon) {
       polyEditor.open();
-      props.onAdd && props.onAdd({ target: polygon });
+      props.onAdd && props.onAdd({ type: 'add', target: polygon });
     } else if (!visiable && active && polygon) {
       polyEditor.close();
-      props.onEnd && props.onEnd({ target: polygon });
+      props.onEnd && props.onEnd({ type: 'end', target: polygon });
     }
   }, [active, visiable, polygon]);
 
-  useEventProperties<AMap.PolygonEditor, AMap.PolygonEditorEvents>(polyEditor!, props, [
+  // @ts-ignore
+  useEventProperties<AMap.PolygonEditorAllEvents, AMap.PolygonEditor>(polyEditor!, props, [
     'onEnd',
-    'onAddnode',
-    'onRemovenode',
+    'onAddNode',
+    'onRemoveNode',
     'onAdjust',
     'onMove',
     'onAdd',

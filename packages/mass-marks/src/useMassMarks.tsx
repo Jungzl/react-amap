@@ -62,7 +62,7 @@ export const useMassMarks = (props = {} as UseMassMarks) => {
     'Zooms',
   ]);
 
-  useEventProperties<AMap.MassMarks, UseMassMarks>(massMarks!, props, [
+  useEventProperties<AMap.MassMarkersAllEvents, AMap.MassMarks>(massMarks!, props, [
     'onComplete',
     'onClick',
     'onDblClick',

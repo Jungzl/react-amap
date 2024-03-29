@@ -31,7 +31,7 @@ export const useCircleMarker = (props = {} as UseCircleMarker) => {
   useVisiable(circleMarker!, visiable);
   useSettingProperties<AMap.CircleMarker, UseCircleMarker>(circleMarker!, props, [
     'Center',
-    'Raius',
+    'Radius',
     'zIndex',
     'Bubble',
     'Cursor',
@@ -43,19 +43,19 @@ export const useCircleMarker = (props = {} as UseCircleMarker) => {
     'Draggable',
     'ExtData',
   ]);
-  useEventProperties<AMap.CircleMarker, UseCircleMarker>(circleMarker!, props, [
+  useEventProperties<AMap.CircleMarkerAllEvents, AMap.CircleMarker>(circleMarker!, props, [
     'onHide',
     'onShow',
-    'onMouseover',
-    'onTouchend',
     'onClick',
-    'onTouchmove',
-    'onRightclick',
-    'onMouseup',
-    'onMouseout',
-    'onTouchstart',
-    'onMousedown',
-    'onDblclick',
+    'onDblClick',
+    'onRightClick',
+    'onMouseDown',
+    'onMouseUp',
+    'onMouseOver',
+    'onMouseOut',
+    'onTouchStart',
+    'onTouchMove',
+    'onTouchEnd',
   ]);
   return {
     circleMarker,

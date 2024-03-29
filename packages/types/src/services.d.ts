@@ -250,7 +250,7 @@ declare namespace AMap {
   /**
    * 根据输入关键字提示匹配信息，可将Poi类型和城市作为输入提示的限制条件。用户可以通过自定义回调函数取回并显
    */
-  class AutoComplete extends MapEventListener<'choose' | 'select'> {
+  class AutoComplete extends MapEventListener<AutoCompleteAllEvents> {
     constructor(opts: AutoCompleteOptions);
     /** 设置提示Poi类型，多个类型用“|”分隔，POI相关类型请在网站“相关下载”处下载，目前只支持Poi类型编码如“050000” 默认值：所有类别 */
     setType(type: string): void;
@@ -299,22 +299,18 @@ declare namespace AMap {
     /** 设置检索语言类型，默认中文 'zh_cn' */
     lang?: string;
   }
-  interface AutoCompleteEvents {
+  type AutoCompleteAllEvents = Extract<EventType, 'choose' | 'select'>;
+  interface AutoCompleteEvents extends MapEventProps<AutoCompleteAllEvents> {
     /** 鼠标或者键盘上下键选择POI信息时触发此事件 */
-    onChoose?(event: AutoCompleteEventsCallback<'choose'>): void;
+    onChoose?: MapEvent<'choose'>;
     /** 鼠标点击或者回车选中某个POI信息时触发此事件 */
-    onSelect?(event: AutoCompleteEventsCallback<'select'>): void;
-  }
-  interface AutoCompleteEventsCallback<T extends 'choose' | 'select'> {
-    poi: POI;
-    /**类型 */
-    type: T;
+    onSelect?: MapEvent<'select'>;
   }
 
   /**
    * 根据输入关键字提示匹配信息，可将Poi类型和城市作为输入提示的限制条件。用户可以通过自定义回调函数取回并显
    */
-  class Autocomplete extends MapEventListener<'choose' | 'select'> {
+  class Autocomplete extends MapEventListener<AutoCompleteAllEvents> {
     constructor(opts: AutoCompleteOptions);
     /** 设置提示Poi类型，多个类型用“|”分隔，POI相关类型请在网站“相关下载”处下载，目前只支持Poi类型编码如“050000” 默认值：所有类别 */
     setType(type: string): void;

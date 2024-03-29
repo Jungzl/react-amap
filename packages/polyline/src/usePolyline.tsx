@@ -45,14 +45,10 @@ export function usePolyline(props = {} as UsePolyline) {
     'ExtData',
     'Draggable',
   ]);
-  useEventProperties<AMap.Polyline, UsePolyline>(polyline!, props, [
+  useEventProperties<AMap.PolylineAllEvents, AMap.Polyline>(polyline!, props, [
     'onHide',
     'onShow',
     'onMouseOut',
-    'onChange',
-    'onDragStart',
-    'onDragging',
-    'onDragEnd',
     'onRightClick',
     'onDblClick',
     'onMouseDown',

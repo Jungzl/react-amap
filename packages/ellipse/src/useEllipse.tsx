@@ -30,19 +30,19 @@ export const useEllipse = (props = {} as UseEllipse) => {
 
   useVisiable(ellipse!, visiable);
   useSettingProperties<AMap.Ellipse, UseEllipse>(ellipse!, props, ['Center', 'Radius', 'Options', 'ExtData']);
-  useEventProperties<AMap.Ellipse, UseEllipse>(ellipse!, props, [
+  useEventProperties<AMap.EllipseAllEvents, AMap.Ellipse>(ellipse!, props, [
     'onHide',
     'onShow',
     'onClick',
     'onDblClick',
     'onRightClick',
-    'onMouseOut',
-    'onMouseOver',
-    'onMouseUp',
     'onMouseDown',
-    'onTouchEnd',
-    'onTouchMove',
+    'onMouseUp',
+    'onMouseOver',
+    'onMouseOut',
     'onTouchStart',
+    'onTouchMove',
+    'onTouchEnd',
   ]);
   return {
     ellipse,

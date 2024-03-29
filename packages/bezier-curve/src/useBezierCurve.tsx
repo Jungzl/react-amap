@@ -34,19 +34,19 @@ export const useBezierCurve = (props = {} as UseBezierCurve) => {
     'ExtData',
     'ExtData',
   ]);
-  useEventProperties<AMap.BezierCurve, UseBezierCurve>(bezierCurve!, props, [
+  useEventProperties<AMap.BezierCurveAllEvents, AMap.BezierCurve>(bezierCurve!, props, [
     'onHide',
     'onShow',
+    'onClick',
     'onDblClick',
-    'onMouseOver',
-    'onMouseUp',
-    'onMouseDown',
-    'onclick',
-    'onTouchEnd',
-    'onTouchMove',
-    'onTouchStart',
     'onRightClick',
+    'onMouseDown',
+    'onMouseUp',
+    'onMouseOver',
     'onMouseOut',
+    'onTouchStart',
+    'onTouchMove',
+    'onTouchEnd',
   ]);
   return {
     bezierCurve,

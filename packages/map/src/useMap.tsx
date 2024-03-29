@@ -97,7 +97,7 @@ export const useMap = (props: UseMap = {}) => {
     'DefaultLayer',
     'Pitch',
   ]);
-  useEventProperties<AMap.AllMapEvents>(map!, props, [
+  useEventProperties<AMap.MapAllEvents, AMap.Map>(map!, props, [
     'onMouseMove',
     'onZoomChange',
     'onMapMove',

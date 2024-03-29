@@ -99,9 +99,9 @@ export function useEventProperties<
   U extends AMap.MapEventListener<T> = AMap.MapEventListener<T>,
 >(instance: U, props: AMap.MapEventProps<T>, eventNames: AMap.EventToProp<T>[] = []) {
   eventNames.forEach((name) => {
-    const eventHandle = (props || {})[name] as unknown as AMap.MapEvent<T>;
+    const eventHandle = props?.[name] as AMap.MapEvent<T> | undefined;
     const eventName = name.replace(/^on/, '').toLocaleLowerCase() as Lowercase<T>;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+
     useEffect(() => {
       if (!instance) return;
       if (eventHandle && eventName) {

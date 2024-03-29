@@ -13,8 +13,7 @@ export const useContextMenu = (props = {} as UseContextMenu) => {
     if (!contextMenu) {
       let instance: AMap.ContextMenu = new AMap.ContextMenu({ ...other });
       setContextMenu(instance);
-      const rightClick = ((event: AMap.MapsEvent<'rightClick'>) =>
-        instance.open(map, position || event.lnglat)) as AMap.MapEvent<AMap.EventType>;
+      const rightClick: AMap.MapEvent<'rightClick'> = (event) => instance.open(map, position || event.lnglat);
       map.on('rightclick', rightClick);
       return () => {
         if (instance) {
@@ -25,7 +24,7 @@ export const useContextMenu = (props = {} as UseContextMenu) => {
       };
     }
   }, [map]);
-  useEventProperties<'open' | 'close'>(contextMenu!, props, ['onOpen', 'onClose']);
+  useEventProperties<AMap.ContextMenuAllEvents, AMap.ContextMenu>(contextMenu!, props, ['onOpen', 'onClose']);
   return {
     contextMenu,
     setContextMenu,

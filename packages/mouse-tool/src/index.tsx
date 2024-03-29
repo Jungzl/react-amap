@@ -75,6 +75,6 @@ export const MouseTool = forwardRef<MouseToolProps, MouseToolProps>((props, ref)
     }
   }, [active, ifClear]);
 
-  useEventProperties<AMap.MouseTool, AMap.MouseToolEvents>(mouseTool!, props, ['onDraw']);
+  useEventProperties<AMap.MouseToolAllEvents, AMap.MouseTool>(mouseTool!, props, ['onDraw']);
   return null;
 });

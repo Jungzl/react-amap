@@ -80,25 +80,7 @@ declare namespace AMap {
   /**
    * [点标记](https://a.amap.com/jsapi/static/doc/index.html?v=2#marker)
    */
-  class Marker extends MapEventListener<
-    | 'dragstart'
-    | 'touchmove'
-    | 'click'
-    | 'dblclick'
-    | 'rightclick'
-    | 'mousemove'
-    | 'mouseover'
-    | 'mouseout'
-    | 'mousedown'
-    | 'mouseup'
-    | 'dragging'
-    | 'dragend'
-    | 'moving'
-    | 'moveend'
-    | 'touchend'
-    | 'movealong'
-    | 'touchstart'
-  > {
+  class Marker extends MapEventListener<MarkerAllEvents> {
     constructor(opts: MarkerOptions);
     /** 获取点标记的文字提示 */
     getTitle(): string | undefined;
@@ -298,7 +280,11 @@ declare namespace AMap {
      */
     label?: { content: string; offset: Pixel; direction: 'top' | 'right' | 'bottom' | 'left' | 'center' };
   }
-  interface MarkerEvents extends EventsCommonProps {
+  type MarkerAllEvents = Extract<
+    EventType,
+    CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'moving' | 'moveEnd' | 'moveAlong' | 'mouseMove'
+  >;
+  interface MarkerEvents extends MapEventProps<MarkerAllEvents> {
     /**
      * 鼠标移动
      */
@@ -352,20 +338,7 @@ declare namespace AMap {
   /**
    * 构造折线对象，支持 lineString 和 MultiLineString
    */
-  class Polyline extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'mouseout'
-    | 'rightclick'
-    | 'dblclick'
-    | 'click'
-    | 'mouseover'
-    | 'touchend'
-    | 'touchmove'
-    | 'touchstart'
-    | 'mouseup'
-    | 'mousedown'
-  > {
+  class Polyline extends MapEventListener<PolylineAllEvents> {
     constructor(opts: PolylineOptions);
     /**
      * 获取当前折线的矩形范围对象
@@ -408,10 +381,13 @@ declare namespace AMap {
      */
     contains(point: LngLatLike): boolean;
   }
-  interface PolylineEvents extends EventsCommonProps {
-    onDragStart?: MapEvent<'dragStart'>;
-    onDragEnd?: MapEvent<'dragEnd'>;
-    onDragging?: MapEvent<'dragging'>;
+  type PolylineAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+
+  interface PolylineEvents extends MapEventProps<PolylineAllEvents> {
+    /** 隐藏 */
+    onHide?: MapEvent<'hide'>;
+    /** 显示 */
+    onShow?: MapEvent<'show'>;
   }
 
   interface PolylineOptions {
@@ -508,29 +484,16 @@ declare namespace AMap {
   /**
    * 构造圆形对象，通过CircleOptions指定多边形样式
    */
-  class Circle extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'rightclick'
-    | 'click'
-    | 'touchend'
-    | 'dblclick'
-    | 'touchmove'
-    | 'touchstart'
-    | 'mouseout'
-    | 'mouseover'
-    | 'mouseup'
-    | 'mousedown'
-  > {
+  class Circle extends MapEventListener<CircleAllEvents> {
     constructor(opts: CircleOptions);
     /** 设置圆中心点 */
     setCenter(center: LngLatLike): void;
     /** 设置圆形的半径 */
-    setRaius(radius: number): void;
+    setRadius(radius: number): void;
     /** 获取圆中心点 */
     getCenter(): LngLat;
     /** 获取圆形的半径 */
-    getRaius(): number;
+    getRadius(): number;
     /** 判断指定点坐标是否在圆内 */
     contains(point: LngLatLike): void;
     /** 修改圆属性（样式风格，包括组成圆形轮廓线的节点、轮廓线样式等。属性详情参看CircleOptions列表） */
@@ -542,7 +505,13 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleOptions;
   }
-  interface CircleEvents extends EventsCommonProps {}
+  type CircleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  interface CircleEvents extends MapEventProps<CircleAllEvents> {
+    /** 隐藏 */
+    onHide?: MapEvent<'hide'>;
+    /** 显示 */
+    onShow?: MapEvent<'show'>;
+  }
   interface CircleOptions {
     /** 圆心位置 */
     center?: LngLat;
@@ -598,23 +567,10 @@ declare namespace AMap {
     options?: Omit<CircleOptions, 'options'>;
   }
 
-  class CircleMarker extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'mouseover'
-    | 'touchend'
-    | 'click'
-    | 'touchmove'
-    | 'rightclick'
-    | 'mouseup'
-    | 'mouseout'
-    | 'touchstart'
-    | 'mousedown'
-    | 'dblclick'
-  > {
+  class CircleMarker extends MapEventListener<CircleMarkerAllEvents> {
     constructor(opts: CircleMarkerOptions);
     /** 设置圆点的半径 */
-    setRaius(radius: number): void;
+    setRadius(radius: number): void;
     /** 获取圆点中心 */
     getCenter(): LngLat;
     /** 获取圆点的半径 */
@@ -632,7 +588,13 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleMarkerOptions;
   }
-  interface CircleMarkerEvents extends EventsCommonProps {}
+  type CircleMarkerAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  interface CircleMarkerEvents extends MapEventProps<CircleMarkerAllEvents> {
+    /** 隐藏 */
+    onHide?: MapEvent<'hide'>;
+    /** 显示 */
+    onShow?: MapEvent<'show'>;
+  }
   interface CircleMarkerOptions {
     /** 圆心位置 */
     center?: LngLat;
@@ -664,20 +626,7 @@ declare namespace AMap {
   /**
    * 构造多边形对象
    */
-  class Ellipse extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'click'
-    | 'dblclick'
-    | 'rightclick'
-    | 'mouseover'
-    | 'touchend'
-    | 'touchmove'
-    | 'touchstart'
-    | 'mouseout'
-    | 'mouseup'
-    | 'mousedown'
-  > {
+  class Ellipse extends MapEventListener<EllipseAllEvents> {
     constructor(opts: EllipseOptions);
     /** 设置椭圆的中心点 */
     setCenter(center: LngLatLike): void;
@@ -758,29 +707,17 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  interface EllipseEvents extends EventsCommonProps {
+  type EllipseAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  interface EllipseEvents extends MapEventProps<EllipseAllEvents> {
     /** 隐藏 */
-    onHide?(data: { type: string; target: AMap.Map }): void;
+    onHide?: MapEvent<'hide'>;
     /** 显示 */
-    onShow?(data: { type: string; target: AMap.Map }): void;
+    onShow?: MapEvent<'show'>;
   }
   /**
    * 构造矩形对象
    */
-  class Rectangle extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'dblclick'
-    | 'click'
-    | 'mousedown'
-    | 'mouseout'
-    | 'mouseover'
-    | 'mouseup'
-    | 'touchend'
-    | 'rightclick'
-    | 'touchstart'
-    | 'touchmove'
-  > {
+  class Rectangle extends MapEventListener<RectangleAllEvents> {
     constructor(opts: RectangleOptions);
     /** 设置矩形的范围 */
     setBounds(bounds: Bounds): void;
@@ -831,31 +768,17 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  interface RectangleEvents extends EventsCommonProps {
+  type RectangleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  interface RectangleEvents extends MapEventProps<RectangleAllEvents> {
     /** 隐藏 */
-    onHide?(event: { type: string; target: AMap.Map }): void;
+    onHide?: MapEvent<'hide'>;
     /** 显示 */
-    onShow?(event: { type: string; target: AMap.Map }): void;
-    /** 属性发生变化时 */
-    onChange?(event: { type: string; target: AMap.Map }): void;
+    onShow?: MapEvent<'show'>;
   }
   /**
    * 贝塞尔曲线
    */
-  class BezierCurve extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'dblclick'
-    | 'mouseover'
-    | 'mouseup'
-    | 'mousedown'
-    | 'click'
-    | 'touchend'
-    | 'touchmove'
-    | 'touchstart'
-    | 'rightclick'
-    | 'mouseout'
-  > {
+  class BezierCurve extends MapEventListener<BezierCurveAllEvents> {
     constructor(opts: BezierCurveOptions);
     /** 修改折线属性（包括路径的节点、线样式、是否绘制大地线等。属性详情参看 BezierCurveOptions 列表） */
     setOptions(optsArg: BezierCurveOptions): void;
@@ -943,27 +866,15 @@ declare namespace AMap {
     /** (default solid) 轮廓线样式，实线:solid，虚线:dashed */
     strokeStyle?: 'solid' | 'dashed';
   }
-  interface BezierCurveEvents extends EventsCommonProps {
+  type BezierCurveAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  interface BezierCurveEvents extends MapEventProps<BezierCurveAllEvents> {
     /** 隐藏 */
-    onHide?(data: { type: string; target: any }): void;
+    onHide?: MapEvent<'hide'>;
     /** 显示 */
-    onShow?(data: { type: string; target: any }): void;
+    onShow?: MapEvent<'show'>;
   }
   /** 多边形 */
-  class Polygon extends MapEventListener<
-    | 'hide'
-    | 'show'
-    | 'touchstart'
-    | 'mouseout'
-    | 'mouseover'
-    | 'mouseup'
-    | 'mousedown'
-    | 'rightclick'
-    | 'click'
-    | 'dblclick'
-    | 'touchend'
-    | 'touchmove'
-  > {
+  class Polygon extends MapEventListener<PolygonAllEvents> {
     constructor(opts: PolygonOptions);
     /** 设置多边形轮廓线节点数组，当为“环”多边形时，path为二维数组，数组元素为多边形轮廓线的节点坐标数组 */
     setPath(path: Array<LngLat> | Array<Array<LngLat>>): void;
@@ -1021,15 +932,20 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  interface PolygonEvents extends EventsCommonProps {
+  type PolygonAllEvents = Extract<EventType, CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'hide' | 'show'>;
+  interface PolygonEvents extends MapEventProps<PolygonAllEvents> {
     onDragStart?: MapEvent<'dragStart'>;
     onDragEnd?: MapEvent<'dragEnd'>;
     onDragging?: MapEvent<'dragging'>;
+    /** 隐藏 */
+    onHide?: MapEvent<'hide'>;
+    /** 显示 */
+    onShow?: MapEvent<'show'>;
   }
   /**
    * Polygon 编辑器
    */
-  class PolygonEditor extends MapEventListener<'end' | 'move' | 'addnode' | 'removenode' | 'adjust' | 'add'> {
+  class PolygonEditor extends MapEventListener<PolygonEditorAllEvents> {
     constructor(map: AMap.Map, polygon: Polygon);
     editable: boolean;
     /** 要显示该polygon的地图对象 */
@@ -1051,25 +967,26 @@ declare namespace AMap {
     /** 删除吸附多边形 */
     removeAdsorbPolygons(list: Polygon | Array<Polygon>): void;
   }
-  interface PolygonEditorEvents {
+  type PolygonEditorAllEvents = Extract<EventType, EditorEventType>;
+  interface PolygonEditorEvents extends MapEventProps<PolygonEditorAllEvents, Polygon> {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
-    onEnd(data: { target: Polygon }): void;
+    onEnd?: MapEvent<'end', Polygon>;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
+    onAddNode?: MapEvent<'addNode', Polygon>;
     /** 移除一个节点时触发此事件 */
-    onRemovenode(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
+    onRemoveNode?: MapEvent<'removeNode', Polygon>;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
+    onAdjust?: MapEvent<'adjust', Polygon>;
     /** 移动覆盖物时触发此事件 */
-    onMove(data: { target: Polygon; lnglat: LngLat; pixel: Pixel }): void;
+    onMove?: MapEvent<'move', Polygon>;
     /** 创建一个覆盖物之后触发该事件，target即为创建对象。当editor编辑对象为空时，调用open接口，再点击一次屏幕就会创建新的覆盖物对象 */
-    onAdd(data: { target: Polygon }): void;
+    onAdd?: MapEvent<'add', Polygon>;
   }
 
   /**
    * Polyline 编辑器
    */
-  class PolylineEditor extends MapEventListener<'end' | 'removenode' | 'addnode' | 'adjust' | 'add'> {
+  class PolylineEditor extends MapEventListener<PolylineEditorAllEvents> {
     constructor(map: AMap.Map, polyline: Polyline);
     editable: boolean;
     /** 要显示该polygon的地图对象 */
@@ -1083,23 +1000,24 @@ declare namespace AMap {
     /** 获取编辑对象 */
     getTarget(): Polyline | undefined;
   }
-  interface PolylineEditorEvents {
+  type PolylineEditorAllEvents = Extract<EventType, Exclude<EditorEventType, 'move'>>;
+  interface PolylineEditorEvents extends MapEventProps<PolylineAllEvents, Polyline> {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
-    onEnd(data: { target: Polyline }): void;
+    onEnd?: MapEvent<'end', Polyline>;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onAddNode?: MapEvent<'addNode', Polyline>;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onAdjust?: MapEvent<'adjust', Polyline>;
     /** 移除一个节点时时触发此事件 */
-    onRemovenode(data: { target: Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onRemoveNode?: MapEvent<'removeNode', Polyline>;
     /** 创建一个覆盖物之后触发该事件，target即为创建对象。当editor编辑对象为空时，调用open接口，再点击一次屏幕就会创建新的覆盖物对象 */
-    onAdd(data: { target: Polyline }): void;
+    onAdd?: MapEvent<'add', Polyline>;
   }
 
   /**
    * Poly 编辑器
    */
-  class PolyEditor extends MapEventListener<'end' | 'removenode' | 'addnode' | 'adjust'> {
+  class PolyEditor extends MapEventListener<PolyEditorAllEvents> {
     constructor(map: AMap.Map, poly: Polygon | Polyline);
     editable: boolean;
     /** 要显示该polygon的地图对象 */
@@ -1109,21 +1027,22 @@ declare namespace AMap {
     /** 停止编辑对象 */
     close(): void;
   }
-  interface PolyEditorEvents {
+  type PolyEditorAllEvents = Extract<EventType, 'end' | 'removeNode' | 'addNode' | 'adjust'>;
+  interface PolyEditorEvents extends MapEventProps<PolyEditorAllEvents, Polygon | Polyline> {
     /** 调用 close 之后触发该事件，target即为编辑后的覆盖物对象 */
-    onEnd(data: { type: string; target: Polygon | Polyline }): void;
+    onEnd?: MapEvent<'end', Polygon | Polyline>;
     /** 增加一个节点时触发此事件 */
-    onAddnode(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onAddNode?: MapEvent<'addNode', Polygon | Polyline>;
     /** 调整折线上某个点时触发此事件 */
-    onAdjust(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onAdjust?: MapEvent<'adjust', Polygon | Polyline>;
     /** 移动覆盖物时触发此事件 */
-    onRemovenode(data: { target: Polygon | Polyline; lnglat: LngLat; pixel: Pixel }): void;
+    onRemoveNode?: MapEvent<'removeNode', Polygon | Polyline>;
   }
 
   /**
    * MouseTool 绘制工具
    */
-  class MouseTool extends MapEventListener<'draw'> {
+  class MouseTool extends MapEventListener<MouseToolAllEvents> {
     constructor(map: AMap.Map);
     /** 要显示的地图对象 */
     map?: Map;
@@ -1158,16 +1077,17 @@ declare namespace AMap {
     /** 关闭当前鼠标操作。参数arg设为true时，鼠标操作关闭的同时清除地图上绘制的所有覆盖物对象；设为false时，保留所绘制的覆盖物对象。默认为false */
     close(ifClear: Boolean = false): void;
   }
-  interface MouseToolEvents {
+  type MouseToolAllEvents = Extract<EventType, 'draw'>;
+  interface MouseToolEvents extends MapEventProps<MouseToolAllEvents> {
     /** 鼠标工具绘制覆盖物结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
-    onDraw(event: { type: string; obj: Marker | Circle | Polygon | Polyline }): void;
+    onDraw?: MapEvent<'draw'>;
   }
 
   /**
    * 用于在地图上弹出一个详细信息展示窗体，地图上只允许同时展示 `1` 个信息窗体
    */
-  class InfoWindow extends MapEventListener<'open' | 'close'> {
-    constructor(opt: InforWindowOptions);
+  class InfoWindow extends MapEventListener<InfoWindowAllEvents> {
+    constructor(opt: InfoWindowOptions);
     /** 打开信息窗体 */
     open(map: Map, pos: LngLat, height?: number): void;
     /** 关闭信息窗体 */
@@ -1192,7 +1112,7 @@ declare namespace AMap {
         | 'bottom-right',
     ): void;
   }
-  interface InforWindowOptions {
+  interface InfoWindowOptions {
     /** 是否自定义窗体。设为true时，信息窗体外框及内容完全按照content所设的值添加（默认为false，即在系统默认的信息窗体外框中显示content内容） */
     isCustom?: boolean;
     /** 是否自动调整窗体到视野内（当信息窗体超出视野范围时，通过该属性设置是否自动平移地图，使信息窗体完全显示） */
@@ -1224,33 +1144,15 @@ declare namespace AMap {
     /** 信息窗体显示基点位置 （自v1.2 新增） */
     position?: LngLat;
   }
-  interface InforWindowEvents {
+  type InfoWindowAllEvents = Extract<EventType, 'open' | 'close'>;
+  interface InfoWindowEvents extends MapEventProps<InfoWindowAllEvents> {
     /** 信息窗体打开之后触发事件 */
-    onOpen?(opts: { type: string }): void;
+    onOpen?: MapEvent<'open'>;
     /** 信息窗体关闭之后触发事件 */
-    onClose?(opts: { type: string }): void;
-    onChange?(): void;
+    onClose?: MapEvent<'close'>;
   }
   /** 文本标记 */
-  class Text extends MapEventListener<
-    | 'moving'
-    | 'touchmove'
-    | 'touchend'
-    | 'movealong'
-    | 'touchstart'
-    | 'moveend'
-    | 'click'
-    | 'dblclick'
-    | 'rightclick'
-    | 'mousemove'
-    | 'mouseover'
-    | 'mouseout'
-    | 'mousedown'
-    | 'mouseup'
-    | 'dragstart'
-    | 'dragend'
-    | 'dragging'
-  > {
+  class Text extends MapEventListener<TextAllEvents> {
     constructor(opts: TextOptions);
     /** 获取文本标记内容 */
     getText(): string | undefined;
@@ -1298,7 +1200,11 @@ declare namespace AMap {
     /** 以给定时间移动点标记到指定位置，加载 AMap.MoveAnimation 后可以使用 */
     moveTo(targetPosition: MoveToOptions, opts?: MoveAlongOptions): void;
   }
-  interface TextEvents extends EventsCommonProps {
+  type TextAllEvents = Extract<
+    EventType,
+    CommonAllEvents | 'moveAlong' | 'moving' | 'moveEnd' | 'dragStart' | 'dragging' | 'dragEnd' | 'mouseMove'
+  >;
+  interface TextEvents extends MapEventProps<TextAllEvents> {
     onMoveALong?: MapEvent<'moveAlong'>;
     onMoving?: MapEvent<'moving'>;
     onMoveEnd?: MapEvent<'moveEnd'>;
@@ -1446,18 +1352,7 @@ declare namespace AMap {
     renderMarker?: (opts: { marker: Marker }) => any;
   }
   /** 海量点类 */
-  class MassMarks extends MapEventListener<
-    | 'touchstart'
-    | 'touchend'
-    | 'mousemove'
-    | 'dblclick'
-    | 'click'
-    | 'complete'
-    | 'mouseover'
-    | 'mousedown'
-    | 'mouseup'
-    | 'mouseout'
-  > {
+  class MassMarks extends MapEventListener<MassMarkersAllEvents> {
     /** 官方文档示例，https://a.amap.com/jsapi/static/doc/index.html#massmarks **/
     constructor(data: MassMarkersDataOptions, opts?: Array<MassMarkersOptions> | MassMarkersOptions);
     setMap(map: Map | null): void;
@@ -1495,9 +1390,13 @@ declare namespace AMap {
     /** 点展示优先级，默认为使用样式的索引值。 */
     zIndex?: number;
   }
-  interface MassMarksEvents extends Omit<EventsCommonProps, 'onRightClick' | 'onTouchMove'> {
+  type MassMarkersAllEvents = Extract<
+    EventType,
+    Exclude<CommonAllEvents, 'rightClick' | 'touchMove'> | 'complete' | 'mouseMove'
+  >;
+  interface MassMarksEvents extends MapEventProps<MassMarkersAllEvents> {
     /** 海量点加载完成事件 */
-    onComplete?: (event: { type: 'complete' }) => void;
+    onComplete?: MapEvent<'complete'>;
   }
   /**
    * 用于实现点标记沿线段或者路径轨迹移动的动画基类，可用于满足轨迹回放、实时轨迹等场景。
@@ -1545,9 +1444,7 @@ declare namespace AMap {
     autoRotation?: boolean;
   }
   /** 标注类 */
-  class LabelMarker extends MapEventListener<
-    'mousedown' | 'mouseup' | 'touchstart' | 'touchmove' | 'touchend' | 'click' | 'mousemove' | 'mouseover' | 'mouseout'
-  > {
+  class LabelMarker extends MapEventListener<LabelMarkerAllEvents> {
     constructor(opts: LabelMarkerOptions);
     getName(): string | undefined;
     setName(name: string): void;
@@ -1589,8 +1486,11 @@ declare namespace AMap {
     /** 设置文本样式，Object同css样式表，如:{'background-color':'red'} */
     style?: TextStyleOptions;
   }
-
-  interface LabelMarkerEvents extends EventsCommonProps {
+  type LabelMarkerAllEvents = Extract<
+    EventType,
+    'click' | 'mouseOver' | 'mouseOut' | 'mouseDown' | 'mouseUp' | 'mouseMove' | 'touchStart' | 'touchMove' | 'touchEnd'
+  >;
+  interface LabelMarkerEvents extends MapEventProps<LabelMarkerAllEvents> {
     /**
      * 鼠标在点标记上按下时触发事件
      */
@@ -1629,7 +1529,7 @@ declare namespace AMap {
     onMouseOut?: MapEvent<'mouseOut'>;
   }
 
-  class ContextMenu extends MapEventListener<'open' | 'close'> {
+  class ContextMenu extends MapEventListener<ContextMenuAllEvents> {
     constructor(opts: ContextMenuOptions);
     /** 打开右键菜单 */
     open(map: Map, position: Vector | LngLat): void;
@@ -1646,7 +1546,8 @@ declare namespace AMap {
     /** 右键菜单内容（针对自定义菜单时，添加菜单内容及功能。可以是HTML要素字符串或者HTML DOM对象。） */
     content?: string | HTMLElement;
   }
-  interface ContextMenuEvents extends MapEventProps<'open' | 'close'> {
+  type ContextMenuAllEvents = Extract<EventType, 'open' | 'close'>;
+  interface ContextMenuEvents extends MapEventProps<ContextMenuAllEvents> {
     /** 菜单打开之后触发事件 */
     onOpen?: MapEvent<'open'>;
     /** 菜单关闭之后触发事件 */

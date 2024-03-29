@@ -51,7 +51,7 @@ export const useMarker = (props: UseMarker = {}) => {
     'Shape',
     'ExtData',
   ]);
-  useEventProperties<AMap.Marker, UseMarker>(marker!, props, [
+  useEventProperties<AMap.MarkerAllEvents, AMap.Marker>(marker!, props, [
     'onClick',
     'onDblClick',
     'onRightClick',

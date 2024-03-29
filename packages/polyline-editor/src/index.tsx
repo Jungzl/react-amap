@@ -30,20 +30,21 @@ export const PolylineEditor = forwardRef<PolylineEditorProps, PolylineEditorProp
     }
     if (visiable && !active && polyline) {
       polyEditor.close();
-      props.onEnd && props.onEnd({ target: polyline });
+      props.onEnd && props.onEnd({ type: 'end', target: polyline });
     } else if (visiable && active && polyline) {
       polyEditor.open();
-      props.onAdd && props.onAdd({ target: polyline });
+      props.onAdd && props.onAdd({ type: 'add', target: polyline });
     } else if (!visiable && active && polyline) {
       polyEditor.close();
-      props.onEnd && props.onEnd({ target: polyline });
+      props.onEnd && props.onEnd({ type: 'end', target: polyline });
     }
   }, [active, visiable, polyline, polyEditor]);
 
-  useEventProperties<AMap.PolylineEditor, AMap.PolylineEditorEvents>(polyEditor!, props, [
+  // @ts-ignore
+  useEventProperties<AMap.PolylineEditorAllEvents, AMap.PolylineEditor>(polyEditor!, props, [
     'onEnd',
-    'onAddnode',
-    'onRemovenode',
+    'onAddNode',
+    'onRemoveNode',
     'onAdjust',
     'onAdd',
   ]);

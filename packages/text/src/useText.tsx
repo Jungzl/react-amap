@@ -48,11 +48,11 @@ export const useText = (props = {} as UseText) => {
     'Cursor',
     'ExtData',
   ]);
-  useEventProperties<AMap.Text, UseText>(text!, props, [
+  useEventProperties<AMap.TextAllEvents, AMap.Text>(text!, props, [
     'onMoving',
     'onTouchMove',
     'onTouchEnd',
-    'onMoveaLong',
+    'onMoveAlong',
     'onTouchStart',
     'onMoveEnd',
     'onClick',

@@ -57,7 +57,7 @@ export const useInfoWindow = (props = {} as UseInfoWindow) => {
   }, [position]);
 
   useSettingProperties<AMap.InfoWindow, UseInfoWindow>(infoWindow!, props, ['Content', 'Anchor', 'Size']);
-  useEventProperties<AMap.InfoWindow, UseInfoWindow>(infoWindow!, props, ['onOpen', 'onClose', 'onChange']);
+  useEventProperties<AMap.InfoWindowAllEvents, AMap.InfoWindow>(infoWindow!, props, ['onOpen', 'onClose']);
   return {
     isOpen,
     setIsOpen,

@@ -21,20 +21,20 @@ export const useCircle = (props = {} as UseCircle) => {
   }, [map]);
 
   useVisiable(circle!, visiable);
-  useSettingProperties<AMap.Circle, UseCircle>(circle!, props, ['Center', 'Raius', 'Options', 'ExtData']);
-  useEventProperties<AMap.Circle, UseCircle>(circle!, props, [
+  useSettingProperties<AMap.Circle, UseCircle>(circle!, props, ['Center', 'Radius', 'Options', 'ExtData']);
+  useEventProperties<AMap.CircleAllEvents, AMap.Circle>(circle!, props, [
     'onHide',
     'onShow',
-    'onRightClick',
     'onClick',
-    'onTouchEnd',
     'onDblClick',
-    'onTouchMove',
-    'onTouchStart',
-    'onMouseOut',
-    'onMouseOver',
-    'onMouseUp',
+    'onRightClick',
     'onMouseDown',
+    'onMouseUp',
+    'onMouseOver',
+    'onMouseOut',
+    'onTouchStart',
+    'onTouchMove',
+    'onTouchEnd',
   ]);
   return {
     circle,

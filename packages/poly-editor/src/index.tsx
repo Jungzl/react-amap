@@ -21,7 +21,9 @@ export const PolyEditor = forwardRef<PolyEditorProps, PolyEditorProps>((props, r
   useEffect(() => {
     if (polyElement && map && !polyEditor && AMap && AMap.PolyEditor) {
       const instance = new AMap.PolyEditor(map, polyElement);
+      // @ts-ignore
       polyElement.on('hide', () => setVisiable(false));
+      // @ts-ignore
       polyElement.on('show', () => setVisiable(true));
       setPolyEditor(instance);
     }
@@ -42,11 +44,12 @@ export const PolyEditor = forwardRef<PolyEditorProps, PolyEditorProps>((props, r
     }
   }, [active, visiable]);
 
-  useEventProperties<AMap.PolyEditor, AMap.PolyEditorEvents>(polyEditor!, props, [
+  // @ts-ignore
+  useEventProperties<AMap.PolyEditorAllEvents, AMap.PolyEditor>(polyEditor!, props, [
     'onEnd',
-    'onAddnode',
+    'onAddNode',
     'onAdjust',
-    'onRemovenode',
+    'onRemoveNode',
   ]);
   return null;
 });
