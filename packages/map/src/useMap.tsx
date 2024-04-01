@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useContext } from 'react';
 import { useSetStatus, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
-import { MapProps } from './types';
+import { MapProps } from '.';
 import { Context } from './context';
 
 export interface OverlayProps extends MapChildProps {}
