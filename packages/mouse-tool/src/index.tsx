@@ -1,12 +1,15 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { useEventProperties } from '@uiw/react-amap-utils';
+/// <reference types="@uiw/react-amap-types" />
+
 import { useMapContext } from '@uiw/react-amap-map';
+import { useEventProperties } from '@uiw/react-amap-utils';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 export interface MouseToolProps extends Partial<AMap.MouseTool>, AMap.MouseToolEvents {
   active: boolean;
   type: MouseToolDrawType; // TODO transform enum
   drawElementOptions?: AMap.PolygonOptions | AMap.PolylineOptions | AMap.MarkerOptions | AMap.CircleOptions;
   ifClear?: boolean;
+  target?: AMap.MouseTool;
 }
 export enum MouseToolDrawType {
   MARKER,
@@ -19,62 +22,66 @@ export enum MouseToolDrawType {
   RECTZOOMIN,
   RECTZOOMOUT,
 }
-export interface MouseToolDrawedEvent {
-  type: string;
-  obj: Object;
-}
+
 export const MouseTool = forwardRef<MouseToolProps, MouseToolProps>((props, ref) => {
-  const { active, type, drawElementOptions, ifClear } = props;
+  const { active, type, drawElementOptions = {}, ifClear } = props;
   const { map } = useMapContext();
-  const [mouseTool, setMouseTool] = useState<AMap.MouseTool>();
-  useImperativeHandle(ref, () => ({ ...props, mouseTool: mouseTool }));
+  const mouseTool = useRef<AMap.MouseTool>();
+  useImperativeHandle(ref, () => ({ ...props, target: mouseTool.current }));
 
   useEffect(() => {
-    if (map && !mouseTool && AMap && AMap.MouseTool) {
-      const instance = new AMap.MouseTool(map);
-      setMouseTool(instance);
+    if (map && !mouseTool.current && AMap && AMap.MouseTool) {
+      mouseTool.current = new AMap.MouseTool(map);
     }
-  }, [map, Map, AMap.MouseTool]);
+    return () => {
+      if (mouseTool.current) {
+        mouseTool.current.close();
+        mouseTool.current = undefined;
+      }
+    };
+  }, [map, mouseTool.current, AMap, AMap.MouseTool]);
 
   useEffect(() => {
-    if (!mouseTool) {
+    if (!mouseTool.current) {
       return;
     }
-    if (!active) {
-      mouseTool.close(ifClear);
-    } else {
-      switch (type) {
-        case MouseToolDrawType.MARKER:
-          mouseTool.marker(drawElementOptions ? drawElementOptions : {});
-          break;
-        case MouseToolDrawType.POLYLINE:
-          mouseTool.polyline(drawElementOptions ? drawElementOptions : ({} as any));
-          break;
-        case MouseToolDrawType.POLYGON:
-          mouseTool.polygon(drawElementOptions ? drawElementOptions : {});
-          break;
-        case MouseToolDrawType.CIRCLE:
-          mouseTool.circle(drawElementOptions ? drawElementOptions : ({} as any));
-          break;
-        case MouseToolDrawType.RECTANGLE:
-          mouseTool.rectangle(drawElementOptions ? drawElementOptions : ({} as any));
-          break;
-        case MouseToolDrawType.MEASUREAREA:
-          mouseTool.measureArea(drawElementOptions ? drawElementOptions : {});
-          break;
-        case MouseToolDrawType.RULE:
-          mouseTool.rule(drawElementOptions ? drawElementOptions : ({} as any));
-          break;
-        case MouseToolDrawType.RECTZOOMIN:
-          mouseTool.rectZoomIn(drawElementOptions ? drawElementOptions : {});
-          break;
-        case MouseToolDrawType.RECTZOOMOUT:
-          mouseTool.rectZoomOut(drawElementOptions ? drawElementOptions : {});
-          break;
-      }
-    }
-  }, [active, ifClear]);
 
-  useEventProperties<AMap.MouseToolAllEvents, AMap.MouseTool>(mouseTool!, props, ['onDraw']);
+    if (!active) {
+      mouseTool.current.close(ifClear);
+    }
+
+    console.log('type:>>', type);
+    switch (type) {
+      case MouseToolDrawType.MARKER:
+        mouseTool.current.marker(drawElementOptions);
+        break;
+      case MouseToolDrawType.POLYLINE:
+        mouseTool.current.polyline(drawElementOptions);
+        break;
+      case MouseToolDrawType.POLYGON:
+        mouseTool.current.polygon(drawElementOptions);
+        break;
+      case MouseToolDrawType.CIRCLE:
+        mouseTool.current.circle(drawElementOptions);
+        break;
+      case MouseToolDrawType.RECTANGLE:
+        mouseTool.current.rectangle(drawElementOptions);
+        break;
+      case MouseToolDrawType.MEASUREAREA:
+        mouseTool.current.measureArea(drawElementOptions);
+        break;
+      case MouseToolDrawType.RULE:
+        mouseTool.current.rule(drawElementOptions);
+        break;
+      case MouseToolDrawType.RECTZOOMIN:
+        mouseTool.current.rectZoomIn(drawElementOptions);
+        break;
+      case MouseToolDrawType.RECTZOOMOUT:
+        mouseTool.current.rectZoomOut(drawElementOptions);
+        break;
+    }
+  }, [mouseTool.current, active, ifClear]);
+
+  useEventProperties<AMap.MouseToolAllEvents, AMap.MouseTool>(mouseTool.current!, props, ['onDraw']);
   return null;
 });

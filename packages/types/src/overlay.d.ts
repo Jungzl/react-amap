@@ -284,36 +284,36 @@ declare namespace AMap {
     EventType,
     CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'moving' | 'moveEnd' | 'moveAlong' | 'mouseMove'
   >;
-  interface MarkerEvents extends MapEventProps<MarkerAllEvents> {
+  interface MarkerEvents extends MapEventProps<MarkerAllEvents, Marker> {
     /**
      * 鼠标移动
      */
-    onMouseMove?: MapEvent<'mouseMove'>;
+    onMouseMove?: MapEvent<'mouseMove', Marker>;
     /**
      * 开始拖拽点标记时触发事件
      */
-    onDragStart?: MapEvent<'dragStart'>;
+    onDragStart?: MapEvent<'dragStart', Marker>;
     /**
      * 鼠标拖拽移动点标记时触发事件
      */
-    onDragging?: MapEvent<'dragging'>;
+    onDragging?: MapEvent<'dragging', Marker>;
     /**
      * 点标记拖拽移动结束触发事件
      */
-    onDragEnd?: MapEvent<'dragEnd'>;
+    onDragEnd?: MapEvent<'dragEnd', Marker>;
     /**
      * 点标记在执行moveTo，moveAlong动画时触发事件，Object对象的格式是{passedPath:Array.<LngLat>}。
      * 其中passedPath为Marker对象在moveAlong或者moveTo过程中已经走过的路径。
      */
-    onMoving?: MapEvent<'moving'>;
+    onMoving?: MapEvent<'moving', Marker>;
     /**
      * 点标记执行moveTo动画结束时触发事件，也可以由moveAlong方法触发
      */
-    onMoveEnd?: MapEvent<'moveEnd'>;
+    onMoveEnd?: MapEvent<'moveEnd', Marker>;
     /**
      * 点标记执行moveAlong动画一次后触发事件
      */
-    onMoveAlong?: MapEvent<'moveAlong'>;
+    onMoveAlong?: MapEvent<'moveAlong', Marker>;
   }
   class MarkerShape {
     constructor(opts: MarkerShapeOptions);
@@ -383,11 +383,11 @@ declare namespace AMap {
   }
   type PolylineAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
 
-  interface PolylineEvents extends MapEventProps<PolylineAllEvents> {
+  interface PolylineEvents extends MapEventProps<PolylineAllEvents, Polyline> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', Polyline>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', Polyline>;
   }
 
   interface PolylineOptions {
@@ -506,11 +506,11 @@ declare namespace AMap {
     getOptions(): CircleOptions;
   }
   type CircleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
-  interface CircleEvents extends MapEventProps<CircleAllEvents> {
+  interface CircleEvents extends MapEventProps<CircleAllEvents, Circle> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', Circle>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', Circle>;
   }
   interface CircleOptions {
     /** 圆心位置 */
@@ -589,11 +589,11 @@ declare namespace AMap {
     getOptions(): CircleMarkerOptions;
   }
   type CircleMarkerAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
-  interface CircleMarkerEvents extends MapEventProps<CircleMarkerAllEvents> {
+  interface CircleMarkerEvents extends MapEventProps<CircleMarkerAllEvents, CircleMarker> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', CircleMarker>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', CircleMarker>;
   }
   interface CircleMarkerOptions {
     /** 圆心位置 */
@@ -708,11 +708,11 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   type EllipseAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
-  interface EllipseEvents extends MapEventProps<EllipseAllEvents> {
+  interface EllipseEvents extends MapEventProps<EllipseAllEvents, Ellipse> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', Ellipse>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', Ellipse>;
   }
   /**
    * 构造矩形对象
@@ -769,11 +769,11 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   type RectangleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
-  interface RectangleEvents extends MapEventProps<RectangleAllEvents> {
+  interface RectangleEvents extends MapEventProps<RectangleAllEvents, Rectangle> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', Rectangle>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', Rectangle>;
   }
   /**
    * 贝塞尔曲线
@@ -867,11 +867,11 @@ declare namespace AMap {
     strokeStyle?: 'solid' | 'dashed';
   }
   type BezierCurveAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
-  interface BezierCurveEvents extends MapEventProps<BezierCurveAllEvents> {
+  interface BezierCurveEvents extends MapEventProps<BezierCurveAllEvents, BezierCurve> {
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', BezierCurve>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', BezierCurve>;
   }
   /** 多边形 */
   class Polygon extends MapEventListener<PolygonAllEvents> {
@@ -923,7 +923,7 @@ declare namespace AMap {
     /** 用户自定义属性，支持JavaScript API任意数据类型，如Polygon的id等 */
     extData?: any;
     /** 轮廓线样式，实线:solid，虚线:dashed */
-    strokeStyle?: string;
+    strokeStyle?: 'solid' | 'dashed';
     /**
      * 勾勒形状轮廓的虚线和间隙的样式，此属性在 strokeStyle 为dashed 时有效，此属性在 ie9+ 浏览器有效 取值：
      * - 实线：[0,0,0]
@@ -933,14 +933,14 @@ declare namespace AMap {
     strokeDasharray?: Array<number>;
   }
   type PolygonAllEvents = Extract<EventType, CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'hide' | 'show'>;
-  interface PolygonEvents extends MapEventProps<PolygonAllEvents> {
-    onDragStart?: MapEvent<'dragStart'>;
-    onDragEnd?: MapEvent<'dragEnd'>;
-    onDragging?: MapEvent<'dragging'>;
+  interface PolygonEvents extends MapEventProps<PolygonAllEvents, Polygon> {
+    onDragStart?: MapEvent<'dragStart', Polygon>;
+    onDragEnd?: MapEvent<'dragEnd', Polygon>;
+    onDragging?: MapEvent<'dragging', Polygon>;
     /** 隐藏 */
-    onHide?: MapEvent<'hide'>;
+    onHide?: MapEvent<'hide', Polygon>;
     /** 显示 */
-    onShow?: MapEvent<'show'>;
+    onShow?: MapEvent<'show', Polygon>;
   }
   /**
    * Polygon 编辑器
@@ -1078,9 +1078,9 @@ declare namespace AMap {
     close(ifClear: Boolean = false): void;
   }
   type MouseToolAllEvents = Extract<EventType, 'draw'>;
-  interface MouseToolEvents extends MapEventProps<MouseToolAllEvents> {
+  interface MouseToolEvents extends MapEventProps<MouseToolAllEvents, MouseTool> {
     /** 鼠标工具绘制覆盖物结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
-    onDraw?: MapEvent<'draw'>;
+    onDraw?: MapEvent<'draw', MouseTool>;
   }
 
   /**
@@ -1145,11 +1145,11 @@ declare namespace AMap {
     position?: LngLat;
   }
   type InfoWindowAllEvents = Extract<EventType, 'open' | 'close'>;
-  interface InfoWindowEvents extends MapEventProps<InfoWindowAllEvents> {
+  interface InfoWindowEvents extends MapEventProps<InfoWindowAllEvents, InfoWindow> {
     /** 信息窗体打开之后触发事件 */
-    onOpen?: MapEvent<'open'>;
+    onOpen?: MapEvent<'open', InfoWindow>;
     /** 信息窗体关闭之后触发事件 */
-    onClose?: MapEvent<'close'>;
+    onClose?: MapEvent<'close', InfoWindow>;
   }
   /** 文本标记 */
   class Text extends MapEventListener<TextAllEvents> {
@@ -1204,14 +1204,14 @@ declare namespace AMap {
     EventType,
     CommonAllEvents | 'moveAlong' | 'moving' | 'moveEnd' | 'dragStart' | 'dragging' | 'dragEnd' | 'mouseMove'
   >;
-  interface TextEvents extends MapEventProps<TextAllEvents> {
-    onMoveALong?: MapEvent<'moveAlong'>;
-    onMoving?: MapEvent<'moving'>;
-    onMoveEnd?: MapEvent<'moveEnd'>;
-    onDragStart?: MapEvent<'dragStart'>;
-    onDragEnd?: MapEvent<'dragEnd'>;
-    onDragging?: MapEvent<'dragging'>;
-    onMouseMove?: MapEvent<'mouseMove'>;
+  interface TextEvents extends MapEventProps<TextAllEvents, Text> {
+    onMoveALong?: MapEvent<'moveAlong', Text>;
+    onMoving?: MapEvent<'moving', Text>;
+    onMoveEnd?: MapEvent<'moveEnd', Text>;
+    onDragStart?: MapEvent<'dragStart', Text>;
+    onDragEnd?: MapEvent<'dragEnd', Text>;
+    onDragging?: MapEvent<'dragging', Text>;
+    onMouseMove?: MapEvent<'mouseMove', Text>;
   }
   interface TextOptions {
     /** 要显示该marker的地图对象 */
@@ -1394,9 +1394,9 @@ declare namespace AMap {
     EventType,
     Exclude<CommonAllEvents, 'rightClick' | 'touchMove'> | 'complete' | 'mouseMove'
   >;
-  interface MassMarksEvents extends MapEventProps<MassMarkersAllEvents> {
+  interface MassMarksEvents extends MapEventProps<MassMarkersAllEvents, MassMarks> {
     /** 海量点加载完成事件 */
-    onComplete?: MapEvent<'complete'>;
+    onComplete?: MapEvent<'complete', MassMarks>;
   }
   /**
    * 用于实现点标记沿线段或者路径轨迹移动的动画基类，可用于满足轨迹回放、实时轨迹等场景。
@@ -1490,43 +1490,43 @@ declare namespace AMap {
     EventType,
     'click' | 'mouseOver' | 'mouseOut' | 'mouseDown' | 'mouseUp' | 'mouseMove' | 'touchStart' | 'touchMove' | 'touchEnd'
   >;
-  interface LabelMarkerEvents extends MapEventProps<LabelMarkerAllEvents> {
+  interface LabelMarkerEvents extends MapEventProps<LabelMarkerAllEvents, LabelMarker> {
     /**
      * 鼠标在点标记上按下时触发事件
      */
-    onMouseDown?: MapEvent<'mouseDown'>;
+    onMouseDown?: MapEvent<'mouseDown', LabelMarker>;
     /**
      * 鼠标在点标记上按下抬起时触发事件
      */
-    onMouseUp?: MapEvent<'mouseUp'>;
+    onMouseUp?: MapEvent<'mouseUp', LabelMarker>;
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
-    onTouchStart?: MapEvent<'touchStart'>;
+    onTouchStart?: MapEvent<'touchStart', LabelMarker>;
     /**
      * 触摸移动进行中时触发事件，仅适用移动设备
      */
-    onTouchMove?: MapEvent<'touchMove'>;
+    onTouchMove?: MapEvent<'touchMove', LabelMarker>;
     /**
      *  触摸结束时触发事件，仅适用移动设备
      */
-    onTouchEnd?: MapEvent<'touchEnd'>;
+    onTouchEnd?: MapEvent<'touchEnd', LabelMarker>;
     /**
      *  鼠标左键单击事件
      */
-    onClick?: MapEvent<'click'>;
+    onClick?: MapEvent<'click', LabelMarker>;
     /**
      *  鼠标移动
      */
-    onMouseMove?: MapEvent<'mouseMove'>;
+    onMouseMove?: MapEvent<'mouseMove', LabelMarker>;
     /**
      *  鼠标移近点标记时触发事件
      */
-    onMouseOver?: MapEvent<'mouseOver'>;
+    onMouseOver?: MapEvent<'mouseOver', LabelMarker>;
     /**
      *  鼠标移出点标记时触发事件
      */
-    onMouseOut?: MapEvent<'mouseOut'>;
+    onMouseOut?: MapEvent<'mouseOut', LabelMarker>;
   }
 
   class ContextMenu extends MapEventListener<ContextMenuAllEvents> {
@@ -1547,10 +1547,10 @@ declare namespace AMap {
     content?: string | HTMLElement;
   }
   type ContextMenuAllEvents = Extract<EventType, 'open' | 'close'>;
-  interface ContextMenuEvents extends MapEventProps<ContextMenuAllEvents> {
+  interface ContextMenuEvents extends MapEventProps<ContextMenuAllEvents, ContextMenu> {
     /** 菜单打开之后触发事件 */
-    onOpen?: MapEvent<'open'>;
+    onOpen?: MapEvent<'open', ContextMenu>;
     /** 菜单关闭之后触发事件 */
-    onClose?: MapEvent<'close'>;
+    onClose?: MapEvent<'close', ContextMenu>;
   }
 }

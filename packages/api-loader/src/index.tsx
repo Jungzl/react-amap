@@ -40,23 +40,20 @@ export interface APILoaderConfig {
 
 export interface APILoaderProps extends APILoaderConfig {}
 
-/**
- * APILoader 用于加载高德地图依赖
- */
-export const APILoader: FC<PropsWithChildren<APILoaderProps>> = (props) => {
-  const { children, ...config } = props;
+const useLoadAMap = (config: APILoaderConfig) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<Error>();
+
   useEffect(() => {
-    const aKey = config.akey || '';
-    const plugins = config.plugins;
-    load({
-      key: aKey,
-      plugins,
-      version: config.version || '2.0',
-      AMapUI: config.AMapUI,
-      Loca: config.Loca,
-    })
+    const loadScript = () =>
+      load({
+        key: config.akey || '',
+        plugins: config.plugins,
+        version: config.version || '2.0',
+        AMapUI: config.AMapUI,
+        Loca: config.Loca,
+      });
+    loadScript()
       .then(() => {
         setError(undefined);
         setLoaded(true);
@@ -64,11 +61,25 @@ export const APILoader: FC<PropsWithChildren<APILoaderProps>> = (props) => {
       .catch((err) => {
         setError(err);
       });
-  }, [config.akey]);
+  }, [config]);
+
+  return { loaded, error };
+};
+
+/**
+ * APILoader 用于加载高德地图依赖
+ */
+export const APILoader: FC<PropsWithChildren<APILoaderProps>> = (props) => {
+  const { children, ...config } = props;
+  const { loaded, error } = useLoadAMap(config);
+
   if (error) {
     return <div style={{ color: 'red' }}>{error.message}</div>;
-  } else if (loaded) {
+  }
+
+  if (loaded) {
     return <Fragment>{children}</Fragment>;
   }
+
   return null;
 };

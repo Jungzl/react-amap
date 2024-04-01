@@ -97,7 +97,7 @@ export function usePrevious<T>(value: T) {
 export function useEventProperties<
   T extends AMap.EventType,
   U extends AMap.MapEventListener<T> = AMap.MapEventListener<T>,
->(instance: U, props: AMap.MapEventProps<T>, eventNames: AMap.EventToProp<T>[] = []) {
+>(instance: U, props: AMap.MapEventProps<T, U>, eventNames: AMap.EventToProp<T>[] = []) {
   eventNames.forEach((name) => {
     const eventHandle = props?.[name] as AMap.MapEvent<T> | undefined;
     const eventName = name.replace(/^on/, '').toLocaleLowerCase() as Lowercase<T>;

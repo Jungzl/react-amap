@@ -300,11 +300,11 @@ declare namespace AMap {
     lang?: string;
   }
   type AutoCompleteAllEvents = Extract<EventType, 'choose' | 'select'>;
-  interface AutoCompleteEvents extends MapEventProps<AutoCompleteAllEvents> {
+  interface AutoCompleteEvents extends MapEventProps<AutoCompleteAllEvents, AutoComplete> {
     /** 鼠标或者键盘上下键选择POI信息时触发此事件 */
-    onChoose?: MapEvent<'choose'>;
+    onChoose?: MapEvent<'choose', AutoComplete>;
     /** 鼠标点击或者回车选中某个POI信息时触发此事件 */
-    onSelect?: MapEvent<'select'>;
+    onSelect?: MapEvent<'select', AutoComplete>;
   }
 
   /**

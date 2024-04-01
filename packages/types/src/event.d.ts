@@ -114,7 +114,7 @@ declare namespace AMap {
     /**
      * 绘制的矢量图形对象。
      */
-    obj: Polyline | Polygon | Rectangle | Circle;
+    obj: Polyline | Polygon | Rectangle | Circle | Marker;
   }
 
   type HotspotEventObj<T extends EventType> = Pick<MapEventAttrs<T>, 'type' | 'lnglat' | 'id' | 'name'> &
