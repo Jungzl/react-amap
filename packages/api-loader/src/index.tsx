@@ -1,7 +1,7 @@
 /// <reference types="@uiw/react-amap-types" />
 
-import { FC, Fragment, PropsWithChildren, useEffect, useState } from 'react';
 import { load } from '@amap/amap-jsapi-loader';
+import { FC, Fragment, PropsWithChildren, useEffect, useState } from 'react';
 
 export interface APILoaderConfig {
   /**
@@ -13,32 +13,46 @@ export interface APILoaderConfig {
    * 3. 为应用[添加 Key](https://lbs.amap.com/dev/key/app)，「服务平台」一项请选择「 Web 端 ( JSAPI ) 」
    *
    */
-  akey?: string;
+  key: string;
   /**
    * SDK 包版本，指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
    * @default 1.4.15
    */
-  version?: string;
+  version: string;
   /**
    * 加载一个或者多个插件
    * @example `['AMap.ToolBar', 'AMap.Driving']`
    */
-  plugins?: string[];
-  /** 是否加载 AMapUI，缺省不加载 */
+  plugins?: AMap.ControlType[];
+  /**
+   * 是否加载 AMapUI，缺省不加载
+   * @default undefined
+   */
   AMapUI?: {
-    /** AMapUI 缺省 1.1 */
+    /**
+     * AMapUI 缺省 1.1
+     * @default "1.1"
+     */
     version?: string;
     /** 需要加载的 AMapUI ui插件 */
     plugins?: string[];
   };
-  /** 是否加载 Loca， 缺省不加载 */
+  /**
+   * 是否加载 Loca， 缺省不加载
+   * @default undefined
+   */
   Loca?: {
-    /** Loca 版本，缺省 1.3.2 */
+    /**
+     * Loca 版本，缺省 1.3.2
+     * @default "1.3.2"
+     */
     version?: string;
   };
 }
 
-export interface APILoaderProps extends APILoaderConfig {}
+export interface APILoaderProps {
+  config: APILoaderConfig;
+}
 
 const useLoadAMap = (config: APILoaderConfig) => {
   const [loaded, setLoaded] = useState(false);
@@ -47,7 +61,7 @@ const useLoadAMap = (config: APILoaderConfig) => {
   useEffect(() => {
     const loadScript = () =>
       load({
-        key: config.akey || '',
+        key: config.key || '',
         plugins: config.plugins,
         version: config.version || '2.0',
         AMapUI: config.AMapUI,
@@ -69,8 +83,7 @@ const useLoadAMap = (config: APILoaderConfig) => {
 /**
  * APILoader 用于加载高德地图依赖
  */
-export const APILoader: FC<PropsWithChildren<APILoaderProps>> = (props) => {
-  const { children, ...config } = props;
+export const APILoader: FC<PropsWithChildren<APILoaderProps>> = ({ config, children }) => {
   const { loaded, error } = useLoadAMap(config);
 
   if (error) {
