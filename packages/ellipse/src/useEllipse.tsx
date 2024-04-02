@@ -1,11 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { EllipseProps } from './';
 
 export interface UseEllipse extends EllipseProps {}
 export const useEllipse = (props = {} as UseEllipse) => {
-  const { visiable, ...other } = props;
+  const { visible, ...other } = props;
   const { map } = useMapContext();
   const [ellipse, setEllipse] = useState<AMap.Ellipse>();
   useLayoutEffect(() => {
@@ -28,7 +28,7 @@ export const useEllipse = (props = {} as UseEllipse) => {
     }
   }, [map]);
 
-  useVisiable(ellipse!, visiable);
+  useVisible(ellipse!, visible);
   useSettingProperties<AMap.Ellipse, UseEllipse>(ellipse!, props, ['Center', 'Radius', 'Options', 'ExtData']);
   useEventProperties<AMap.EllipseAllEvents, AMap.Ellipse>(ellipse!, props, [
     'onHide',

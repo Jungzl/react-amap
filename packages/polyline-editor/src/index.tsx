@@ -12,14 +12,14 @@ export const PolylineEditor = forwardRef<PolylineEditorProps, PolylineEditorProp
   const { active } = props;
   const { map } = useMapContext();
   const polyline = useContext(PolylineContext);
-  const [visiable, setVisiable] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(true);
   const [polyEditor, setPolyEditor] = useState<AMap.PolylineEditor>();
   useImperativeHandle(ref, () => ({ ...props, polyEditor }));
   useEffect(() => {
     if (polyline && map && !polyEditor && AMap && AMap.PolylineEditor) {
       const instance = new AMap.PolylineEditor(map, polyline);
-      polyline.on('hide', () => setVisiable(false));
-      polyline.on('show', () => setVisiable(true));
+      polyline.on('hide', () => setVisible(false));
+      polyline.on('show', () => setVisible(true));
       setPolyEditor(instance);
     }
   }, [polyline]);
@@ -28,17 +28,17 @@ export const PolylineEditor = forwardRef<PolylineEditorProps, PolylineEditorProp
     if (!polyEditor) {
       return;
     }
-    if (visiable && !active && polyline) {
+    if (visible && !active && polyline) {
       polyEditor.close();
       props.onEnd && props.onEnd({ type: 'end', target: polyline });
-    } else if (visiable && active && polyline) {
+    } else if (visible && active && polyline) {
       polyEditor.open();
       props.onAdd && props.onAdd({ type: 'add', target: polyline });
-    } else if (!visiable && active && polyline) {
+    } else if (!visible && active && polyline) {
       polyEditor.close();
       props.onEnd && props.onEnd({ type: 'end', target: polyline });
     }
-  }, [active, visiable, polyline, polyEditor]);
+  }, [active, visible, polyline, polyEditor]);
 
   // @ts-ignore
   useEventProperties<AMap.PolylineEditorAllEvents, AMap.PolylineEditor>(polyEditor!, props, [

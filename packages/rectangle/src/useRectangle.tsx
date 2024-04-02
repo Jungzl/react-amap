@@ -1,11 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { RectangleProps } from '.';
 
 export interface UseRectangle extends RectangleProps {}
 export const useRectangle = (props = {} as UseRectangle) => {
-  const { visiable, ...other } = props;
+  const { visible, ...other } = props;
   const { map } = useMapContext();
   const [rectangle, setRectangle] = useState<AMap.Rectangle>();
   useLayoutEffect(() => {
@@ -28,7 +28,7 @@ export const useRectangle = (props = {} as UseRectangle) => {
     }
   }, [map]);
 
-  useVisiable(rectangle!, visiable);
+  useVisible(rectangle!, visible);
   useSettingProperties<AMap.Rectangle, UseRectangle>(rectangle!, props, ['Bounds', 'Options', 'Map', 'ExtData']);
   useEventProperties<AMap.RectangleAllEvents, AMap.Rectangle>(rectangle!, props, [
     'onHide',

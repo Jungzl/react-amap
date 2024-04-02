@@ -1,11 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { CircleProps } from '.';
 
 export interface UseCircle extends CircleProps {}
 export const useCircle = (props = {} as UseCircle) => {
-  const { visiable, ...other } = props;
+  const { visible, ...other } = props;
   const { map } = useMapContext();
   const [circle, setCircle] = useState<AMap.Circle>();
   useLayoutEffect(() => {
@@ -20,7 +20,7 @@ export const useCircle = (props = {} as UseCircle) => {
     }
   }, [map]);
 
-  useVisiable(circle!, visiable);
+  useVisible(circle!, visible);
   useSettingProperties<AMap.Circle, UseCircle>(circle!, props, ['Center', 'Radius', 'Options', 'ExtData']);
   useEventProperties<AMap.CircleAllEvents, AMap.Circle>(circle!, props, [
     'onHide',

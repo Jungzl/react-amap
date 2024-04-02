@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { LabelMarkerProps } from './';
 
@@ -15,7 +15,7 @@ const initIcon: LabelMarkerProps['icon'] = {
 
 export interface UseLabelMarker extends LabelMarkerProps {}
 export const useLabelMarker = (props: UseLabelMarker = {}) => {
-  const { visiable, children, text, icon = initIcon, ...other } = props;
+  const { visible, children, text, icon = initIcon, ...other } = props;
   const { map, AMap } = useMapContext();
   const [labelMarker, setLabelMarker] = useState<AMap.LabelMarker>();
   // const { container, Portal } = usePortal();
@@ -86,7 +86,7 @@ export const useLabelMarker = (props: UseLabelMarker = {}) => {
       };
     }
   }, [map]);
-  useVisiable(labelMarker!, visiable);
+  useVisible(labelMarker!, visible);
   useSettingProperties<AMap.LabelMarker, UseLabelMarker>(labelMarker, props, [
     'Name',
     'Position',

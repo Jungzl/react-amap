@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useVisiable } from '@uiw/react-amap-utils';
+import { useVisible } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { TileLayerProps, TileLayerType } from './index';
 
@@ -7,7 +7,7 @@ export interface UseTileLayer extends TileLayerProps {}
 
 export function useTileLayer(props = {} as UseTileLayer) {
   const [tileLayer, setTileLayer] = useState<AMap.TileLayer>();
-  const { visiable, type, options } = props;
+  const { visible, type, options } = props;
   const { map } = useMapContext();
   useEffect(() => {
     if (map) {
@@ -50,7 +50,7 @@ export function useTileLayer(props = {} as UseTileLayer) {
     }
   }, [map, type, options]);
 
-  useVisiable(tileLayer!, visiable);
+  useVisible(tileLayer!, visible);
   return {
     tileLayer,
     setTileLayer,

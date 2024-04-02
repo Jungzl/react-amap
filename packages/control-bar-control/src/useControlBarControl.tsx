@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useVisiable } from '@uiw/react-amap-utils';
+import { useVisible } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { ControlBarControlProps } from '.';
 
 export interface UseControlBarControl extends ControlBarControlProps {}
 
 export function useControlBarControl(props = {} as UseControlBarControl) {
-  const { position, visiable, offset } = props;
+  const { position, visible, offset } = props;
   const [controlBarControl, setControlBarControl] = useState<AMap.ControlBar>();
   const { map } = useMapContext();
   useEffect(() => {
@@ -28,7 +28,7 @@ export function useControlBarControl(props = {} as UseControlBarControl) {
     }
   }, [map]);
 
-  useVisiable(controlBarControl!, visiable);
+  useVisible(controlBarControl!, visible);
   return {
     controlBarControl,
     setControlBarControl,

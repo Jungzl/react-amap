@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { BezierCurveProps } from '.';
 
 export interface UseBezierCurve extends BezierCurveProps {}
 export const useBezierCurve = (props = {} as UseBezierCurve) => {
-  const { visiable, ...other } = props;
+  const { visible, ...other } = props;
   const { map } = useMapContext();
   const [bezierCurve, setBezierCurve] = useState<AMap.BezierCurve>();
   useEffect(() => {
@@ -27,7 +27,7 @@ export const useBezierCurve = (props = {} as UseBezierCurve) => {
     }
   }, [map]);
 
-  useVisiable(bezierCurve!, visiable);
+  useVisible(bezierCurve!, visible);
   useSettingProperties<AMap.BezierCurve, UseBezierCurve>(bezierCurve!, props, [
     'Options',
     'Path',

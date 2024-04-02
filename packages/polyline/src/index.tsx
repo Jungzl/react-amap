@@ -8,7 +8,7 @@ export const PolylineContext = createContext<AMap.Polyline | undefined>(undefine
 
 export interface PolylineProps extends OverlayProps, AMap.PolylineEvents, AMap.PolylineOptions {
   /** 覆盖物是否可见 */
-  visiable?: boolean;
+  visible?: boolean;
   children?: React.JSX.Element;
 }
 export const Polyline = React.forwardRef<PolylineProps, PolylineProps>((props, ref) => {

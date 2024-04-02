@@ -1,11 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
-import { useVisiable, useEventProperties, useSettingProperties, usePortal } from '@uiw/react-amap-utils';
+import { useVisible, useEventProperties, useSettingProperties, usePortal } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { MarkerProps } from './';
 
 export interface UseMarker extends MarkerProps {}
 export const useMarker = (props: UseMarker = {}) => {
-  const { visiable, children, ...other } = props;
+  const { visible, children, ...other } = props;
   const { map } = useMapContext();
   const [marker, setMarker] = useState<AMap.Marker>();
   const { container, Portal } = usePortal();
@@ -29,7 +29,7 @@ export const useMarker = (props: UseMarker = {}) => {
     }
   }, [map]);
 
-  useVisiable(marker!, visiable);
+  useVisible(marker!, visible);
   useSettingProperties<AMap.Marker, UseMarker>(marker!, props, [
     'Path',
     'Anchor',

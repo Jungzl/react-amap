@@ -5,7 +5,7 @@ import { useInfoWindow } from './useInfoWindow';
 export * from './useInfoWindow';
 export interface InfoWindowProps extends OverlayProps, AMap.InfoWindowEvents, AMap.InfoWindowOptions {
   /** 覆盖物是否可见 */
-  visiable?: boolean;
+  visible?: boolean;
   children?: React.JSX.Element;
 }
 export const InfoWindow = React.forwardRef<InfoWindowProps, InfoWindowProps>((props, ref) => {

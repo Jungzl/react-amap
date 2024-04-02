@@ -12,7 +12,7 @@ export enum TileLayerType {
 
 export interface TileLayerProps extends OverlayProps, AMap.TileLayerOptions {
   /** 图层是否可见 */
-  visiable?: boolean;
+  visible?: boolean;
   type?: TileLayerType;
   options?: AMap.TileLayerOptions;
   /** 图层添加到地图上后的回调 */

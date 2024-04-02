@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useVisiable } from '@uiw/react-amap-utils';
+import { useVisible } from '@uiw/react-amap-utils';
 import { useMapContext } from '@uiw/react-amap-map';
 import { MapTypeControlProps } from '.';
 
@@ -7,7 +7,7 @@ export interface UseMapTypeControl extends MapTypeControlProps {}
 
 export function useMapTypeControl(props = {} as UseMapTypeControl) {
   const [mapTypeControl, setMapTypeControl] = useState<AMap.MapType>();
-  const { visiable, defaultType = 0, ...other } = props;
+  const { visible, defaultType = 0, ...other } = props;
   const { map } = useMapContext();
   useEffect(() => {
     if (map && !mapTypeControl) {
@@ -25,7 +25,7 @@ export function useMapTypeControl(props = {} as UseMapTypeControl) {
     }
   }, [map]);
 
-  useVisiable(mapTypeControl!, visiable);
+  useVisible(mapTypeControl!, visible);
   return {
     mapTypeControl,
     setMapTypeControl,
