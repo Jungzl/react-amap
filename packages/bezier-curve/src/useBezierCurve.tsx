@@ -15,10 +15,9 @@ export const useBezierCurve = (props = {} as UseBezierCurve) => {
       setBezierCurve(instance);
       return () => {
         if (instance) {
-          if (AMap.v) {
+          try {
             map && map.remove(instance);
-          } else {
-            // 暂不使用这个 API，这个不兼容 v1.4.xx，改用 map.remove API
+          } catch (e) {
             map && map.removeLayer(instance);
           }
           setBezierCurve(undefined);

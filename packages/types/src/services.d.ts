@@ -306,24 +306,6 @@ declare namespace AMap {
     /** 鼠标点击或者回车选中某个POI信息时触发此事件 */
     onSelect?: MapEvent<'select', AutoComplete>;
   }
-
-  /**
-   * 根据输入关键字提示匹配信息，可将Poi类型和城市作为输入提示的限制条件。用户可以通过自定义回调函数取回并显
-   */
-  class Autocomplete extends MapEventListener<AutoCompleteAllEvents> {
-    constructor(opts: AutoCompleteOptions);
-    /** 设置提示Poi类型，多个类型用“|”分隔，POI相关类型请在网站“相关下载”处下载，目前只支持Poi类型编码如“050000” 默认值：所有类别 */
-    setType(type: string): void;
-    /** 设置城市 */
-    setCity(city: string): void;
-    /** 设置是否强制限制城市 */
-    setCityLimit(citylimit: boolean): void;
-    /** 设置是否强制限制城市 */
-    search(
-      keyword?: string,
-      callback?: (status: 'complete' | 'error' | 'no_data', result?: AutoCompleteSearchCallback) => void,
-    ): void;
-  }
   /** 地点搜索服务插件，提供某一特定地区的位置查询服务。 */
   class PlaceSearch extends MapEventListener<'selectChanged' | 'listElementClick' | 'markerClick'> {
     constructor(opts: PlaceSearchOptions);

@@ -9,17 +9,10 @@ export const useAutoComplete = (props = {} as UseAutoComplete) => {
     if (AMap && !autoComplete) {
       let instance: AMap.AutoComplete;
 
-      if (AMap.v) {
-        AMap.plugin(['AMap.Autocomplete'], () => {
-          instance = new AMap.Autocomplete(props);
-          setAutoComplete(instance);
-        });
-      } else {
-        AMap.plugin(['AMap.AutoComplete'], () => {
-          instance = new AMap.AutoComplete(props);
-          setAutoComplete(instance);
-        });
-      }
+      AMap.plugin(['AMap.AutoComplete'], () => {
+        instance = new AMap.AutoComplete(props);
+        setAutoComplete(instance);
+      });
 
       return () => {
         if (instance) {

@@ -6,9 +6,6 @@ declare global {
 }
 
 declare namespace AMap {
-  /** 1.x.xx 版本 API，版本号用的是这个字段 */
-  const v: string;
-
   /** 2.x.xx 版本 API，版本号用的是这个字段 */
   const version: string;
 

@@ -18,13 +18,9 @@ export function usePolyline(props = {} as UsePolyline) {
         if (instance) {
           try {
             map && map.remove(instance);
-          } catch (e) {}
-          // if (AMap.v) {
-          //   map && map.remove(polyline);
-          // } else {
-          //   // 暂不使用这个 API，这个不兼容 v1.4.xx，改用 map.remove API
-          //   map && map.removeLayer(polyline);
-          // }
+          } catch (e) {
+            map && map.removeLayer(instance);
+          }
           setPolyline(undefined);
         }
       };
