@@ -225,6 +225,10 @@ declare namespace AMap {
                     ? EditorEventObj<T, U>
                     : never;
 
+  type EventToProp<T extends EventType> = `on${Capitalize<T>}`;
+
+  type EventFromProp<T extends EventToProp<EventType>> = T extends `on${infer U}` ? Uncapitalize<U> : never;
+
   type MapEvent<T extends EventType, U extends MapEventListener = Map> = (event: MapsEvent<T, U>) => void;
 
   type MapEventProps<T extends EventType, U extends MapEventListener = Map> = {

@@ -280,10 +280,9 @@ declare namespace AMap {
      */
     label?: { content: string; offset: Pixel; direction: 'top' | 'right' | 'bottom' | 'left' | 'center' };
   }
-  type MarkerAllEvents = Extract<
-    EventType,
-    CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'moving' | 'moveEnd' | 'moveAlong' | 'mouseMove'
-  >;
+  type MarkerAllEvents =
+    | CommonAllEvents
+    | Extract<EventType, 'dragStart' | 'dragging' | 'dragEnd' | 'moving' | 'moveEnd' | 'moveAlong' | 'mouseMove'>;
   interface MarkerEvents extends MapEventProps<MarkerAllEvents, Marker> {
     /**
      * 鼠标移动
@@ -381,7 +380,7 @@ declare namespace AMap {
      */
     contains(point: LngLatLike): boolean;
   }
-  type PolylineAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type PolylineAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
 
   interface PolylineEvents extends MapEventProps<PolylineAllEvents, Polyline> {
     /** 隐藏 */
@@ -505,7 +504,7 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleOptions;
   }
-  type CircleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type CircleAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
   interface CircleEvents extends MapEventProps<CircleAllEvents, Circle> {
     /** 隐藏 */
     onHide?: MapEvent<'hide', Circle>;
@@ -588,7 +587,7 @@ declare namespace AMap {
     /** 获取圆形的属性 */
     getOptions(): CircleMarkerOptions;
   }
-  type CircleMarkerAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type CircleMarkerAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
   interface CircleMarkerEvents extends MapEventProps<CircleMarkerAllEvents, CircleMarker> {
     /** 隐藏 */
     onHide?: MapEvent<'hide', CircleMarker>;
@@ -707,7 +706,7 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  type EllipseAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type EllipseAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
   interface EllipseEvents extends MapEventProps<EllipseAllEvents, Ellipse> {
     /** 隐藏 */
     onHide?: MapEvent<'hide', Ellipse>;
@@ -768,7 +767,7 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  type RectangleAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type RectangleAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
   interface RectangleEvents extends MapEventProps<RectangleAllEvents, Rectangle> {
     /** 隐藏 */
     onHide?: MapEvent<'hide', Rectangle>;
@@ -866,7 +865,7 @@ declare namespace AMap {
     /** (default solid) 轮廓线样式，实线:solid，虚线:dashed */
     strokeStyle?: 'solid' | 'dashed';
   }
-  type BezierCurveAllEvents = Extract<EventType, CommonAllEvents | 'hide' | 'show'>;
+  type BezierCurveAllEvents = CommonAllEvents | Extract<EventType, 'hide' | 'show'>;
   interface BezierCurveEvents extends MapEventProps<BezierCurveAllEvents, BezierCurve> {
     /** 隐藏 */
     onHide?: MapEvent<'hide', BezierCurve>;
@@ -932,7 +931,7 @@ declare namespace AMap {
      */
     strokeDasharray?: Array<number>;
   }
-  type PolygonAllEvents = Extract<EventType, CommonAllEvents | 'dragStart' | 'dragging' | 'dragEnd' | 'hide' | 'show'>;
+  type PolygonAllEvents = CommonAllEvents | Extract<EventType, 'dragStart' | 'dragging' | 'dragEnd' | 'hide' | 'show'>;
   interface PolygonEvents extends MapEventProps<PolygonAllEvents, Polygon> {
     onDragStart?: MapEvent<'dragStart', Polygon>;
     onDragEnd?: MapEvent<'dragEnd', Polygon>;
@@ -1079,7 +1078,7 @@ declare namespace AMap {
   }
   type MouseToolAllEvents = Extract<EventType, 'draw'>;
   interface MouseToolEvents extends MapEventProps<MouseToolAllEvents, MouseTool> {
-    /** 鼠标工具绘制覆盖物结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
+    /** 鼠标工具绘制覆盖物（不包括框选放大缩小）结束时触发此事件，obj对象为绘制出来的覆盖物对象。 */
     onDraw?: MapEvent<'draw', MouseTool>;
   }
 
@@ -1200,10 +1199,9 @@ declare namespace AMap {
     /** 以给定时间移动点标记到指定位置，加载 AMap.MoveAnimation 后可以使用 */
     moveTo(targetPosition: MoveToOptions, opts?: MoveAlongOptions): void;
   }
-  type TextAllEvents = Extract<
-    EventType,
-    CommonAllEvents | 'moveAlong' | 'moving' | 'moveEnd' | 'dragStart' | 'dragging' | 'dragEnd' | 'mouseMove'
-  >;
+  type TextAllEvents =
+    | CommonAllEvents
+    | Extract<EventType, 'moveAlong' | 'moving' | 'moveEnd' | 'dragStart' | 'dragging' | 'dragEnd' | 'mouseMove'>;
   interface TextEvents extends MapEventProps<TextAllEvents, Text> {
     onMoveALong?: MapEvent<'moveAlong', Text>;
     onMoving?: MapEvent<'moving', Text>;
@@ -1390,10 +1388,9 @@ declare namespace AMap {
     /** 点展示优先级，默认为使用样式的索引值。 */
     zIndex?: number;
   }
-  type MassMarkersAllEvents = Extract<
-    EventType,
-    Exclude<CommonAllEvents, 'rightClick' | 'touchMove'> | 'complete' | 'mouseMove'
-  >;
+  type MassMarkersAllEvents =
+    | Exclude<CommonAllEvents, 'rightClick' | 'touchMove'>
+    | Extract<EventType, 'complete' | 'mouseMove'>;
   interface MassMarksEvents extends MapEventProps<MassMarkersAllEvents, MassMarks> {
     /** 海量点加载完成事件 */
     onComplete?: MapEvent<'complete', MassMarks>;

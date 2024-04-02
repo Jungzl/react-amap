@@ -48,10 +48,6 @@ declare namespace AMap {
     | POIEventType
     | EditorEventType;
 
-  type EventToProp<T extends EventType> = `on${Capitalize<T>}`;
-
-  type EventFromProp<T extends EventToProp<EventType>> = T extends `on${infer U}` ? Uncapitalize<U> : never;
-
   interface MapEventAttrs<T extends EventType> {
     /**
      * 事件类型。
