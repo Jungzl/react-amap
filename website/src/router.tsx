@@ -75,8 +75,8 @@ export const routes = [
     component: lazy(() => import('./pages/rectangle')),
   },
   {
-    path: '/beizer-curve',
-    component: lazy(() => import('./pages/beizer-curve')),
+    path: '/bezier-curve',
+    component: lazy(() => import('./pages/bezier-curve')),
   },
   {
     path: '/poly-editor',
