@@ -31,16 +31,16 @@ declare namespace AMap {
     }
   }
   abstract class Overlay<ExtraData = any> extends MapEventListener<
-    | 'touchstart'
-    | 'touchmove'
-    | 'touchend'
+    | 'touchStart'
+    | 'touchMove'
+    | 'touchEnd'
     | 'click'
-    | 'rightclick'
-    | 'dblclick'
-    | 'mousemove'
-    | 'mouseover'
-    | 'mousedown'
-    | 'mouseup'
+    | 'rightClick'
+    | 'dblClick'
+    | 'mouseMove'
+    | 'mouseOver'
+    | 'mouseDown'
+    | 'mouseUp'
   > {
     constructor(options?: Overlay.Options);
     /**
