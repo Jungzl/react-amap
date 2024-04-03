@@ -2,6 +2,42 @@
 /// <reference path="./core.d.ts" />
 
 declare namespace AMap {
+  type CommonAllEvents = Extract<
+    EventType,
+    | 'click'
+    | 'dblClick'
+    | 'rightClick'
+    | 'mouseDown'
+    | 'mouseUp'
+    | 'mouseOver'
+    | 'mouseOut'
+    | 'touchStart'
+    | 'touchMove'
+    | 'touchEnd'
+  >;
+  /** 共同部分事件定义 */
+  interface EventsCommonProps extends MapEventProps<CommonAllEvents> {
+    /** 鼠标左键单击事件 */
+    onClick?: MapEvent<'click'>;
+    /** 鼠标左键双击事件 */
+    onDblClick?: MapEvent<'dblClick'>;
+    /** 右键单击 */
+    onRightClick?: MapEvent<'rightClick'>;
+    /** 鼠标按下 */
+    onMouseDown?: MapEvent<'mouseDown'>;
+    /** 鼠标抬起 */
+    onMouseUp?: MapEvent<'mouseUp'>;
+    /** 鼠标经过 */
+    onMouseOver?: MapEvent<'mouseOver'>;
+    /** 鼠标移出 */
+    onMouseOut?: MapEvent<'mouseOut'>;
+    /** 触摸开始时触发事件，仅适用移动设备 */
+    onTouchStart?: MapEvent<'touchStart'>;
+    /** 触摸移动进行中时触发事件，仅适用移动设备 */
+    onTouchMove?: MapEvent<'touchMove'>;
+    /** 触摸结束时触发事件，仅适用移动设备 */
+    onTouchEnd?: MapEvent<'touchEnd'>;
+  }
   namespace Overlay {
     interface Options<ExtraData = any> {
       /**

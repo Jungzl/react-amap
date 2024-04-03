@@ -165,73 +165,6 @@ declare namespace AMap {
      */
     toString?(): string;
   }
-  class MapEventListener<T extends EventType> {
-    /**
-     * 设置控件可见
-     */
-    show: () => void;
-    /**
-     * 设置控件隐藏
-     */
-    hide: () => void;
-    /**
-     * 添加事件监听函数
-     * @param event
-     * @param handler
-     */
-    on<U extends T>(event: Lowercase<U>, handler: MapEvent<U>): void;
-    /**
-     * 移除事件监听函数
-     * @param event
-     * @param handler
-     */
-    off<U extends T>(event: Lowercase<U>, handler: MapEvent<U>): void;
-    /**
-     * 判断当前实例是否已经绑定了某个事件回调
-     * @param type 事件类型
-     * @param handler 事件回调
-     * @param context 事件上下文
-     */
-    hasEvents(type: string, handler: any, context: any): boolean;
-    /**
-     * 清除当前实例某一类型的全部事件回调
-     * @param type 事件类型，如果此参数为空，清除实例上的所有绑定的事件回调
-     */
-    clearEvents(type: string): any;
-    /** 模拟触发当前实例的某个事件 */
-    emit(type: string, data: any): any;
-  }
-
-  type MapsEvent<T extends EventType, U extends MapEventListener = Map> = T extends BaseMouseEventType
-    ? BaseMouseEventObj<T, U>
-    : T extends TouchEventType
-      ? TouchEventObj<T, U>
-      : T extends HotspotEventType
-        ? HotspotEventObj<T>
-        : T extends ViewportEventType
-          ? ViewportEventObj<T, U>
-          : T extends DomEventType
-            ? DomEventObj<T>
-            : T extends AnimationEventType
-              ? AnimationEventObj<T, U>
-              : T extends DrawEventType
-                ? DrawEventObj<T>
-                : T extends POIEventType
-                  ? POIEventObj<T>
-                  : T extends EditorEventType
-                    ? EditorEventObj<T, U>
-                    : never;
-
-  type EventToProp<T extends EventType> = `on${Capitalize<T>}`;
-
-  type EventFromProp<T extends EventToProp<EventType>> = T extends `on${infer U}` ? Uncapitalize<U> : never;
-
-  type MapEvent<T extends EventType, U extends MapEventListener = Map> = (event: MapsEvent<T, U>) => void;
-
-  type MapEventProps<T extends EventType, U extends MapEventListener = Map> = {
-    [K in EventToProp<T>]?: MapEvent<EventFromProp<K>, U>;
-  };
-
   /**
    * 表示点标记的图标
    * 用于添加复杂点标记，即在普通点标记的基础上，添加Icon类，通过在Icon表示的大图上截取其中一部分作为标注的图标 [相关示例](https://lbs.amap.com/api/javascript-api/example/marker/custom-icon/)
@@ -279,41 +212,5 @@ declare namespace AMap {
      * 图标所用图片大小，根据所设置的大小拉伸或压缩图片，等同于CSS中的background-size属性。可用于实现高清屏的高清效果
      */
     imageSize?: Size;
-  }
-  type CommonAllEvents = Extract<
-    EventType,
-    | 'click'
-    | 'dblClick'
-    | 'rightClick'
-    | 'mouseDown'
-    | 'mouseUp'
-    | 'mouseOver'
-    | 'mouseOut'
-    | 'touchStart'
-    | 'touchMove'
-    | 'touchEnd'
-  >;
-  /** 共同部分事件定义 */
-  interface EventsCommonProps extends MapEventProps<CommonAllEvents> {
-    /** 鼠标左键单击事件 */
-    onClick?: MapEvent<'click'>;
-    /** 鼠标左键双击事件 */
-    onDblClick?: MapEvent<'dblClick'>;
-    /** 右键单击 */
-    onRightClick?: MapEvent<'rightClick'>;
-    /** 鼠标按下 */
-    onMouseDown?: MapEvent<'mouseDown'>;
-    /** 鼠标抬起 */
-    onMouseUp?: MapEvent<'mouseUp'>;
-    /** 鼠标经过 */
-    onMouseOver?: MapEvent<'mouseOver'>;
-    /** 鼠标移出 */
-    onMouseOut?: MapEvent<'mouseOut'>;
-    /** 触摸开始时触发事件，仅适用移动设备 */
-    onTouchStart?: MapEvent<'touchStart'>;
-    /** 触摸移动进行中时触发事件，仅适用移动设备 */
-    onTouchMove?: MapEvent<'touchMove'>;
-    /** 触摸结束时触发事件，仅适用移动设备 */
-    onTouchEnd?: MapEvent<'touchEnd'>;
   }
 }
