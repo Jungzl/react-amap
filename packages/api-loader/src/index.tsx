@@ -15,10 +15,10 @@ export interface APILoaderConfig {
    */
   key: string;
   /**
-   * SDK 包版本，指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-   * @default 1.4.15
+   * SDK 包版本，指定要加载的 JSAPI 的版本，缺省时默认为 2.0
+   * @default '2.0'
    */
-  version: string;
+  version?: string;
   /**
    * 加载一个或者多个插件
    * @example `['AMap.ToolBar', 'AMap.Driving']`
@@ -61,11 +61,8 @@ const useLoadAMap = (config: APILoaderConfig) => {
   useEffect(() => {
     const loadScript = () =>
       load({
-        key: config.key || '',
-        plugins: config.plugins,
+        ...config,
         version: config.version || '2.0',
-        AMapUI: config.AMapUI,
-        Loca: config.Loca,
       });
     loadScript()
       .then(() => {
